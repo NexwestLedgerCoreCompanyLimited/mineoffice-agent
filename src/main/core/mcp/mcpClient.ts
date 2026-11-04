@@ -237,7 +237,7 @@ export class McpClientManager {
       await connection.request('initialize', {
         protocolVersion: PROTOCOL_VERSION,
         capabilities: {},
-        clientInfo: { name: 'mineoffice', version: '0.1.0' }
+        clientInfo: { name: 'mineoffice', version: '0.2.0' }
       });
       connection.notify('notifications/initialized');
 

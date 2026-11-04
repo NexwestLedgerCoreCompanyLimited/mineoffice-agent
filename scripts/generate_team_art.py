@@ -101,6 +101,13 @@ FACES = {
     "onyx": face("deep", (20, 20, 26, 255), (214, 64, 58, 255), "visor", (214, 64, 58, 255)),
     "clover": face("fair", (70, 150, 80, 255), (40, 100, 60, 255), "headset", (86, 186, 92, 255)),
     "page": face("tan", (120, 70, 40, 255), (60, 40, 30, 255), "glasses", (133, 88, 52, 255)),
+    "hazel": face("fair", (122, 78, 46, 255), (70, 110, 60, 255), "bun", (66, 96, 200, 255)),
+    "heath": face("brown", (46, 40, 52, 255), (50, 34, 24, 255), "headset", (235, 110, 160, 255)),
+    "lark": face("tan", (235, 110, 160, 255), (60, 40, 90, 255), "side"),
+    "maple": face("fair", (176, 64, 44, 255), (60, 90, 140, 255), "long"),
+    "sorrel": face("deep", (214, 170, 60, 255), (50, 34, 24, 255), "cap", (214, 64, 58, 255)),
+    "indigo": face("brown", (60, 70, 180, 255), (40, 30, 70, 255), "fringe"),
+    "ember": face("tan", (214, 96, 40, 255), (70, 50, 40, 255), "beard"),
 }
 
 
@@ -269,6 +276,61 @@ def tech_writer(d):  # open book
     d.line([7, 2, 8, 2], fill=RED)
 
 
+def admin(d):  # calendar page
+    box(d, 1, 2, 14, 14, WHITE)
+    d.rectangle([2, 3, 13, 5], fill=RED)
+    d.rectangle([4, 0, 5, 3], fill=STEEL)
+    d.rectangle([10, 0, 11, 3], fill=STEEL)
+    d.point([(x, y) for y in (8, 11) for x in (4, 7, 10)], fill=DARK)
+    d.rectangle([10, 10, 11, 11], fill=GREEN)
+
+
+def customer_support(d):  # speech bubble with a heart of dots
+    box(d, 1, 1, 14, 10, CYAN)
+    d.polygon([(4, 11), (8, 11), (4, 14)], fill=CYAN, outline=OUTLINE)
+    d.point([(4, 5), (7, 5), (10, 5)], fill=WHITE)
+    d.point([(5, 5), (8, 5), (11, 5)], fill=WHITE)
+
+
+def social_media(d):  # heart on a phone-sized card
+    box(d, 2, 1, 13, 14, BLUE)
+    d.rectangle([4, 5, 6, 7], fill=PINK)
+    d.rectangle([9, 5, 11, 7], fill=PINK)
+    d.rectangle([5, 7, 10, 9], fill=PINK)
+    d.rectangle([6, 9, 9, 10], fill=PINK)
+    d.rectangle([7, 10, 8, 11], fill=PINK)
+
+
+def content_writer(d):  # pencil over a page
+    box(d, 2, 1, 11, 14, WHITE)
+    for y in (4, 6, 8):
+        d.line([4, y, 9, y], fill=STEEL)
+    d.line([14, 6, 8, 12], fill=GOLD, width=2)
+    d.point((7, 13), fill=DARK)
+
+
+def marketer(d):  # megaphone
+    d.polygon([(2, 6), (11, 1), (11, 13), (2, 9)], fill=RED, outline=OUTLINE)
+    d.rectangle([12, 5, 14, 9], fill=GOLD, outline=OUTLINE)
+    d.rectangle([4, 10, 6, 14], fill=DARK)
+
+
+def graphic_designer(d):  # pen tool with a curve
+    d.line([2, 13, 5, 6], fill=PURPLE, width=1)
+    d.line([5, 6, 11, 4], fill=PURPLE, width=1)
+    d.line([11, 4, 14, 12], fill=PURPLE, width=1)
+    for x, y in ((2, 13), (5, 6), (11, 4), (14, 12)):
+        d.rectangle([x - 1, y - 1, x + 1, y + 1], fill=WHITE, outline=OUTLINE)
+
+
+def video_producer(d):  # clapperboard
+    box(d, 1, 5, 14, 14, DARK)
+    box(d, 1, 1, 14, 4, WHITE)
+    for x in (3, 7, 11):
+        d.line([x, 1, x + 2, 4], fill=OUTLINE)
+    d.polygon([(6, 7), (6, 12), (10, 9)], fill=GOLD)
+
+
 ICONS = {
     "product_manager": product_manager,
     "business_analyst": business_analyst,
@@ -285,6 +347,13 @@ ICONS = {
     "security": security,
     "qa": qa,
     "tech_writer": tech_writer,
+    "admin": admin,
+    "customer_support": customer_support,
+    "social_media": social_media,
+    "content_writer": content_writer,
+    "marketer": marketer,
+    "graphic_designer": graphic_designer,
+    "video_producer": video_producer,
 }
 
 
@@ -296,12 +365,12 @@ def main() -> None:
         icon(draw_on).save(ASSETS / "icons" / f"role_{name}.png")
 
     # A contact sheet, to look at them all at once
-    sheet = Image.new("RGBA", (10 * 72, 4 * 72), (240, 243, 248, 255))
+    sheet = Image.new("RGBA", (10 * 72, 6 * 72), (240, 243, 248, 255))
     for index, portrait in enumerate(FACES.values()):
         sheet.paste(portrait.resize((64, 64), Image.NEAREST), (4 + (index % 10) * 72, 4 + (index // 10) * 72))
     for index, draw_on in enumerate(ICONS.values()):
         rendered = icon(draw_on).resize((64, 64), Image.NEAREST)
-        sheet.paste(rendered, (4 + (index % 10) * 72, 148 + (index // 10) * 72), rendered)
+        sheet.paste(rendered, (4 + (index % 10) * 72, 220 + (index // 10) * 72), rendered)
     sheet.save(Path(__file__).resolve().parent.parent / "node_modules" / "team-art-preview.png")
 
 

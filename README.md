@@ -1,14 +1,15 @@
 # MineOffice Agent
 
-An AI team that works in your Minecraft world and in your code. Run it as a desktop app, as a headless Linux service, or as a tool another AI can control over MCP.
+An AI team that works in your Minecraft world, in your code and on your business. Run it as a desktop app, as a headless Linux service, or as a tool another AI can control over MCP.
 
-[![License: MineOffice Business License](https://img.shields.io/badge/License-MineOffice%20Business-amber.svg)](LICENSE)
+[![License: BSL 1.1](https://img.shields.io/badge/License-BSL%201.1-amber.svg)](LICENSE)
 
-> **Status: 0.1.0, early release.** See [What has been tested](#what-has-been-tested) before relying on it. It has not yet been run on a vanilla or Paper server or with a live AI provider.
+> **Status: 0.2.0, early release.** See [What has been tested](#what-has-been-tested) before relying on it. It has not yet been run on a vanilla or Paper server or with a live AI provider.
 
 ## What it does
 
-- **A whole software company.** 23 AI characters across product, design, engineering and quality can take a big goal from requirements to finished code, working in parallel.
+- **A whole company.** 30 AI characters across product, design, engineering, quality, admin, marketing and creative can take a big goal from requirements to finished work, in parallel.
+- **Business work too.** Admin, customer support, social media, content, marketing, graphics and video planning. They prepare the work and you publish it, unless you connect a tool that can.
 - **You stay in charge of the result.** You approve the requirements and the design, and review the finished work once. Show the team images of what you like and it follows them.
 - **Command Center.** Describe a goal in plain words, check how the Commander split it up, then start it.
 - **Agents that think in a loop.** In-game agents look at their situation, take one step, read the result and decide again, so a failure changes the plan instead of ending it.
@@ -25,11 +26,15 @@ An AI team that works in your Minecraft world and in your code. Run it as a desk
 **Headless, on any machine with Node.js 22 or newer:**
 
 ```bash
-npx mineoffice-agent init
+npm install -g https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/releases/download/v0.2.0/mineoffice-agent-0.2.0.tgz
 ```
 
 ```bash
-npx mineoffice-agent serve --host localhost:25565 --spawn --commander YourName
+mineoffice-agent init
+```
+
+```bash
+mineoffice-agent serve --host localhost:25565 --spawn --commander YourName
 ```
 
 **Desktop app:** download the installer for Windows, macOS or Linux from the [Releases](../../releases) page. Builds are not code-signed yet, so Windows and macOS will warn you the first time.
@@ -56,7 +61,7 @@ An AI provider is required: OpenRouter (has free models), Google Gemini, Anthrop
 
 ## The team
 
-The roles follow how software teams are usually organized: product, design, engineering, and quality.
+The roles follow how companies are usually organized: product, design, engineering and quality, plus admin, marketing and creative.
 
 | Department | Who | Does |
 | :--- | :--- | :--- |
@@ -81,6 +86,17 @@ The roles follow how software teams are usually organized: product, design, engi
 | Quality | Onyx, Security Engineer | Finds and fixes security problems |
 | | Clover, QA Engineer | Test plans and automated tests |
 | | Page, Technical Writer | README and guides |
+| Admin and support | Hazel, Office Administrator | Schedules, checklists, reports and meeting notes |
+| | Heath, Customer Support | Drafts replies to customers, FAQs and help guides |
+| Marketing and content | Lark, Social Media Manager | Posting calendars, posts and hashtags |
+| | Maple, Content Writer | Articles, captions, newsletters and web copy |
+| | Sorrel, Marketing Specialist | Campaigns, SEO keywords and ad copy |
+| Creative | Indigo, Graphic Designer | Logos, icons, banners and posters, drawn as SVG files |
+| | Ember, Video Producer | Video scripts, storyboards and subtitle files |
+
+For business work, choose **Project** in the Command Center. The Commander skips the software steps and goes straight to the people who do that work.
+
+What they cannot do yet: the team has no accounts of its own, so it cannot post, send or reply for you unless you connect an MCP tool that can. The Graphic Designer draws vector art as SVG and does not generate photos. The Video Producer writes scripts and does not edit or render video.
 
 You can change anyone's role or give them their own AI provider on the Team page. If that provider has no key, the agent uses the team's main one.
 
@@ -292,8 +308,9 @@ A plain Minecraft server has no idea an AI team exists, so the owner has to run 
 | :--- | :--- |
 | Agent loop, permissions, memory, routines | Scripted AI replies |
 | The whole team: order, handing work on, approvals, Tech Lead review, conflicts, shared branch, final merge | Real Git and scripted AI replies, plus one walkthrough in the real app, by hand |
-| Sending images to all five kinds of AI service | The exact requests were checked, using formats from secondary sources. No live service has answered yet |
-| Everyone in one world at once | 23 real bots on flying-squid, Minecraft 1.21.4, checked by hand |
+| What is sent to all five kinds of AI service, images included | The exact requests were checked against each service's documentation on 2026-11-05, and OpenRouter's model list was read live. No service has answered with a real key yet |
+| Office, marketing and creative departments, up to an SVG merged into a project | Real Git and scripted AI replies |
+| Everyone in one world at once | 23 real bots on flying-squid, Minecraft 1.21.4, checked by hand. The team has been 30 since 0.2.0, and that size has not been tried in one world |
 | MCP client, local and remote | Real child processes and a real HTTP server |
 | Code tasks | Real Git, including hostile AI output |
 | CLI, MCP server, status page, security rules | The built CLI, with stand-in Minecraft and AI servers |
@@ -346,13 +363,15 @@ The first builds and runs every check. The second packages the desktop app for y
 
 ## License
 
-MineOffice uses the [MineOffice Business License](LICENSE). It is free to use, and it is not an open source license.
+MineOffice uses the [Business Source License 1.1](LICENSE). It is free to use and the source is public, but until the change date it is source-available, not open source.
 
 | You may | You may not |
 | :--- | :--- |
 | Use it to make money, such as on your own paid server | Sell it, or a changed version of it |
 | Charge customers for your own services and for what you make with it | Rent it out, or charge mainly for access to it |
-| Change anything, and add to it | Remove or change its name and copyright |
-| Share it for free under the same license | Pass off a changed version under another name |
+| Change anything, and build on it | Pay-to-download, bundle or resell it |
+| Share it for free under the same license | |
 
-Read [LICENSE](LICENSE) for the exact terms. See [NOTICE.md](NOTICE.md) for the projects this one learned from and the art it includes.
+**Each version becomes Apache License 2.0 four years after it is released.** For version 0.2.0 that happens on 2030-11-05. From then on, that version has no selling restriction.
+
+Read [LICENSE](LICENSE) for the exact terms. This summary is a guide, and the license text is what counts. See [NOTICE.md](NOTICE.md) for the projects this one learned from and the art it includes.

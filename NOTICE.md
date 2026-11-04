@@ -1,6 +1,6 @@
 # Notices
 
-The MineOffice Business License in `LICENSE` covers MineOffice itself. The items below keep their own licenses, and nothing in it changes them.
+The Business Source License in `LICENSE` covers MineOffice itself. The items below keep their own licenses, and nothing in it changes them.
 
 ## Art
 
@@ -8,6 +8,16 @@ The block textures in `public/assets/blocks`, and the portraits of Marlow, Junip
 
 > MIT License. Copyright (c) 2026 AgentCraft contributors.
 > https://github.com/blendi-remade/agentcraft
+
+The AI provider logos in `public/assets/providers` come from [LobeHub Icons](https://github.com/lobehub/lobe-icons) (`@lobehub/icons-static-svg` 1.102.0).
+
+> MIT License. Copyright (c) 2023 LobeHub.
+
+## Trademarks
+
+OpenAI, Claude, Anthropic, Gemini, Google, OpenRouter and Ollama, and their logos, belong to their owners. They appear only to show which AI service is in use. Their owners do not endorse or sponsor MineOffice, and no license in this project gives any right to these marks.
+
+Minecraft is a trademark of Mojang Synergies AB. MineOffice is not an official Minecraft product and is not approved by or associated with Mojang or Microsoft.
 
 ## Projects this one learned from
 

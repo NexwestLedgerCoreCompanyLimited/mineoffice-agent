@@ -5,6 +5,8 @@ import { tDynamic } from './i18n';
  * Chain of command for the team. A role decides what an agent may be asked to do:
  * the Commander only plans and delegates, field crew act in the Minecraft world
  * using the skill categories listed here, and office staff work on code and research.
+ * Office staff only write text and files. They have no way to post, send or render anything
+ * themselves unless you connect a tool for it, so their prompts say to hand the result to you.
  */
 function office(role: {
   id: AgentRole;
@@ -242,6 +244,73 @@ export const ROLE_DEFINITIONS: Record<AgentRole, RoleDefinition> = {
     readsImages: false,
     summary: 'Writes the README, guides and documentation.',
     prompt: 'You are a Technical Writer. Write clear documentation for the person using this: how to install it, run it, and do the main tasks. Only describe what the project really does.'
+  }),
+  admin: office({
+    id: 'admin',
+    label: 'Office Administrator',
+    department: 'admin',
+    readsImages: true,
+    documentsOnly: true,
+    summary: 'Keeps the office running: schedules, checklists, follow-ups, meeting notes and reports.',
+    prompt:
+      'You are the Office Administrator. Turn messy requests into clear schedules, checklists, follow-up lists, meeting notes and reports. Keep them short and ready to use. You cannot send anything or book anything, so end with what the user needs to do.'
+  }),
+  customer_support: office({
+    id: 'customer_support',
+    label: 'Customer Support',
+    department: 'admin',
+    readsImages: true,
+    documentsOnly: true,
+    summary: 'Drafts replies to customers, FAQs and help guides, in a kind and clear tone.',
+    prompt:
+      'You are Customer Support. Draft kind, clear replies to customers, and write FAQs and help guides. Never invent policies, prices or promises: mark anything you do not know as something the user must fill in. You cannot send messages, so hand over drafts.'
+  }),
+  social_media: office({
+    id: 'social_media',
+    label: 'Social Media Manager',
+    department: 'marketing',
+    readsImages: true,
+    documentsOnly: true,
+    summary: 'Plans posting calendars and writes posts and hashtags for each social platform.',
+    prompt:
+      'You are the Social Media Manager. Plan posting calendars and write posts that fit each platform, with hashtags and a note on the picture each post needs. You cannot post anything, and you cannot see real numbers, so never claim something was posted and never invent statistics.'
+  }),
+  content_writer: office({
+    id: 'content_writer',
+    label: 'Content Writer',
+    department: 'marketing',
+    readsImages: true,
+    summary: 'Writes articles, captions, newsletters and web copy, as text or as files in the project.',
+    prompt:
+      'You are the Content Writer. Write articles, captions, newsletters and web copy in the tone the user wants and the language they use. Only state facts you were given, and mark anything that needs checking.'
+  }),
+  marketer: office({
+    id: 'marketer',
+    label: 'Marketing Specialist',
+    department: 'marketing',
+    readsImages: false,
+    documentsOnly: true,
+    summary: 'Plans campaigns, target audiences, SEO keywords and ad copy.',
+    prompt:
+      'You are the Marketing Specialist. Plan campaigns: who they are for, the message, the channels and what to measure. Write SEO keywords and ad copy. You have no market data here, so label your estimates as estimates.'
+  }),
+  graphic_designer: office({
+    id: 'graphic_designer',
+    label: 'Graphic Designer',
+    department: 'creative',
+    readsImages: true,
+    summary: 'Draws logos, icons, banners and posters as SVG files. Changes files, so give it code-type work.',
+    prompt:
+      'You are the Graphic Designer. You draw by writing SVG files: logos, icons, banners and posters with a clean layout, a real viewBox and readable text. Keep to one clear idea and a small set of colors. When the user sent pictures, match their style. You cannot make photos or use pictures you do not have, so draw shapes instead, and never copy another brand.'
+  }),
+  video_producer: office({
+    id: 'video_producer',
+    label: 'Video Producer',
+    department: 'creative',
+    readsImages: true,
+    summary: 'Writes video scripts, storyboards and subtitle files. Does not edit or render video.',
+    prompt:
+      'You are the Video Producer. Write video scripts, shot-by-shot storyboards and subtitle files in SRT format, timed to the length the user wants. You cannot edit or render video, so say what still needs filming or editing.'
   })
 };
 
@@ -266,7 +335,14 @@ export const ROLE_ORDER: AgentRole[] = [
   'devops',
   'security',
   'qa',
-  'tech_writer'
+  'tech_writer',
+  'admin',
+  'customer_support',
+  'social_media',
+  'content_writer',
+  'marketer',
+  'graphic_designer',
+  'video_producer'
 ];
 
 /**
@@ -298,13 +374,30 @@ const CODE_ROLE_KEYWORDS: Partial<Record<AgentRole, string[]>> = {
   mobile: ['android', 'ios', 'mobile app', 'แอปมือถือ'],
   ml_engineer: ['machine learning', 'model training', 'embedding'],
   frontend: ['frontend', 'css', 'react', 'component', 'หน้าจอ', 'หน้าเว็บ'],
-  backend: ['backend', ' api', 'endpoint', 'หลังบ้าน']
+  backend: ['backend', ' api', 'endpoint', 'หลังบ้าน'],
+  graphic_designer: ['svg', 'logo', 'banner', 'poster', 'โลโก้', 'กราฟิก', 'แบนเนอร์', 'โปสเตอร์'],
+  video_producer: ['subtitle', 'storyboard', 'ซับไตเติล', 'สตอรีบอร์ด'],
+  content_writer: ['article', 'blog post', 'บทความ']
+};
+
+const WRITTEN_ROLE_KEYWORDS: Partial<Record<AgentRole, string[]>> = {
+  social_media: ['social media', 'facebook', 'instagram', 'tiktok', 'โซเชียล', 'เฟซบุ๊ก', 'เฟสบุ๊ค', 'โพสต์'],
+  marketer: ['marketing', 'campaign', 'seo', 'การตลาด', 'แคมเปญ', 'โฆษณา'],
+  content_writer: ['article', 'blog', 'caption', 'newsletter', 'บทความ', 'คอนเทนต์', 'แคปชั่น'],
+  video_producer: ['video', 'storyboard', 'วิดีโอ', 'คลิป'],
+  customer_support: ['customer', 'faq', 'ลูกค้า'],
+  admin: ['schedule', 'meeting', 'checklist', 'ตารางงาน', 'ประชุม', 'เช็กลิสต์', 'ธุรการ']
 };
 
 /** Picks the role best suited to a task from its text when the planner gave none. */
 export function inferRole(text: string, category: TaskCategory): AgentRole {
   const lower = text.toLowerCase();
-  if (category === 'research') return 'business_analyst';
+  if (category === 'research') {
+    for (const [role, keywords] of Object.entries(WRITTEN_ROLE_KEYWORDS)) {
+      if (keywords!.some(keyword => lower.includes(keyword))) return role as AgentRole;
+    }
+    return 'business_analyst';
+  }
   if (category === 'code') {
     for (const [role, keywords] of Object.entries(CODE_ROLE_KEYWORDS)) {
       if (keywords!.some(keyword => lower.includes(keyword))) return role as AgentRole;

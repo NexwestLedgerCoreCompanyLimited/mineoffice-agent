@@ -19,14 +19,21 @@ export type AgentRole =
   | 'devops'
   | 'security'
   | 'qa'
-  | 'tech_writer';
+  | 'tech_writer'
+  | 'admin'
+  | 'customer_support'
+  | 'social_media'
+  | 'content_writer'
+  | 'marketer'
+  | 'graphic_designer'
+  | 'video_producer';
 
 export type TaskCategory = 'code' | 'minecraft' | 'research';
 
 /** What a goal is for. A project is many kinds of work, so its tasks each pick their own category. */
 export type PlanMode = TaskCategory | 'project';
 
-export type Department = 'command' | 'field' | 'product' | 'design' | 'engineering' | 'quality';
+export type Department = 'command' | 'field' | 'product' | 'design' | 'engineering' | 'quality' | 'admin' | 'marketing' | 'creative';
 
 /** A picture sent to the AI, such as a design you like. */
 export interface ImageAttachment {
@@ -256,7 +263,6 @@ export interface AppSettings {
     openrouter: {
       apiKey: string;
       model: string;
-      availableFreeModels: string[];
     };
     gemini: {
       apiKey: string;

@@ -3,7 +3,8 @@ import { useAppStore } from '../stores/useAppStore';
 import { AppSettings, LLMProvider, McpServerConfig, PermissionAction, WorkspaceInfo } from '@shared/types';
 import { t } from '@shared/i18n';
 import { useAppStore as useStore } from '../stores/useAppStore';
-import { Lamp } from '../components/ui';
+import { DEFAULT_MODELS, MODEL_SUGGESTIONS } from '@shared/models';
+import { Lamp, ProviderLogo } from '../components/ui';
 
 export const providers = (): { id: LLMProvider; name: string; note: string; hint: string }[] => [
   { id: 'openrouter', name: 'OpenRouter', note: t('provider.openrouter.note'), hint: 'sk-or-...' },
@@ -11,14 +12,6 @@ export const providers = (): { id: LLMProvider; name: string; note: string; hint
   { id: 'claude', name: 'Anthropic Claude', note: t('provider.needsKey'), hint: 'sk-ant-...' },
   { id: 'openai', name: 'OpenAI', note: t('provider.needsKey'), hint: 'sk-...' },
   { id: 'ollama', name: t('provider.ollama.name'), note: t('provider.ollama.note'), hint: 'http://localhost:11434' }
-];
-
-const OPENROUTER_MODELS = [
-  ['meta-llama/llama-3.3-70b-instruct:free', 'Llama 3.3 70B'],
-  ['google/gemini-2.0-flash-exp:free', 'Gemini 2.0 Flash'],
-  ['deepseek/deepseek-r1:free', 'DeepSeek R1'],
-  ['mistralai/mistral-7b-instruct:free', 'Mistral 7B'],
-  ['qwen/qwen-2.5-72b-instruct:free', 'Qwen 2.5 72B']
 ];
 
 const WorkspacePicker: React.FC<{ form: AppSettings; onChange: (workspacePath: string) => Promise<void> }> = ({ form, onChange }) => {
@@ -253,6 +246,7 @@ export const AiSettings: React.FC = () => {
                   checked={active}
                   onChange={() => setForm({ ...form, activeDefaultProvider: provider.id })}
                 />
+                <ProviderLogo provider={provider.id} size={28} />
                 <span>
                   <span className="block text-[15px] font-bold">{provider.name}</span>
                   <span className="block text-[13px] text-muted">{provider.note}</span>
@@ -281,20 +275,19 @@ export const AiSettings: React.FC = () => {
                   />
                 </label>
               )}
-              {provider.id === 'openrouter' && (
-                <label className="flex flex-col gap-1.5 text-sm font-medium">
-                  {t('settings.model')}
-                  <select
-                    className="field"
-                    value={form.providers.openrouter.model}
-                    onChange={e => setForm({ ...form, providers: { ...form.providers, openrouter: { ...form.providers.openrouter, model: e.target.value } } })}
-                  >
-                    {OPENROUTER_MODELS.map(([id, label]) => (
-                      <option key={id} value={id}>{label} ({t('settings.free')})</option>
-                    ))}
-                  </select>
-                </label>
-              )}
+              <label className="flex flex-col gap-1.5 text-sm font-medium">
+                {t('settings.model')}
+                <input
+                  className="field font-mono"
+                  list={`models-${provider.id}`}
+                  value={form.providers[provider.id].model}
+                  onChange={e => setForm({ ...form, providers: { ...form.providers, [provider.id]: { ...form.providers[provider.id], model: e.target.value } } })}
+                  placeholder={DEFAULT_MODELS[provider.id]}
+                />
+                <datalist id={`models-${provider.id}`}>
+                  {MODEL_SUGGESTIONS[provider.id].map(id => <option key={id} value={id} />)}
+                </datalist>
+              </label>
             </div>
           );
         })}

@@ -19,6 +19,7 @@ import {
   VoyagerSkill
 } from '@shared/types';
 import { createDefaultMinecraftSettings } from '@shared/minecraft';
+import { DEFAULT_MODELS } from '@shared/models';
 import { setLanguage as setActiveLanguage } from '@shared/i18n';
 
 export type AppPage = 'home' | 'tasks' | 'review' | 'team' | 'server' | 'watch' | 'settings';
@@ -103,11 +104,11 @@ export const useAppStore = create<AppState>((set, get) => ({
   page: 'home',
   settings: {
     providers: {
-      openrouter: { apiKey: '', model: 'meta-llama/llama-3.3-70b-instruct:free', availableFreeModels: [] },
-      gemini: { apiKey: '', model: 'gemini-2.5-flash' },
-      claude: { apiKey: '', model: 'claude-sonnet-5-5' },
-      openai: { apiKey: '', model: 'gpt-4o' },
-      ollama: { baseUrl: 'http://localhost:11434', model: 'llama3' }
+      openrouter: { apiKey: '', model: DEFAULT_MODELS.openrouter },
+      gemini: { apiKey: '', model: DEFAULT_MODELS.gemini },
+      claude: { apiKey: '', model: DEFAULT_MODELS.claude },
+      openai: { apiKey: '', model: DEFAULT_MODELS.openai },
+      ollama: { baseUrl: 'http://localhost:11434', model: DEFAULT_MODELS.ollama }
     },
     activeDefaultProvider: 'openrouter',
     workspacePath: '',

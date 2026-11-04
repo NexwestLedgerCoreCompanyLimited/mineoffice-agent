@@ -339,7 +339,7 @@ export class SwarmOrchestrator {
 
     const projectGuide = isProject
       ? `
-Plan this the way a software company would: requirements first, then design and architecture, then small build tasks that different developers can do separately, then tests, a security check and documentation. Use only the roles this goal really needs: a small goal needs few tasks. Each build task should change only a few files, and developers working at the same time should not touch the same files. Set "category" to "research" for written work such as requirements and designs, and "code" for anything that changes files. Set "checkpoint" to true for work the user should approve before others build on it.`
+Plan this the way a real company would, using only the departments this goal really needs: a small goal needs few tasks. For software: requirements first, then design and architecture, then small build tasks that different developers can do separately, then tests, a security check and documentation. For business work such as office admin, customer replies, marketing, social media, content, graphics or video planning: skip the software steps and go straight to the people who do that work. Each build task should change only a few files, and people working at the same time should not touch the same files. Set "category" to "research" for written work such as requirements, designs, plans and post drafts, and "code" for anything that changes files, including SVG graphics and content saved as files. Set "checkpoint" to true for work the user should approve before others build on it.`
       : '';
 
     const systemPrompt = `You are ${capitalize(commander.name)}, the Commander of the MineOffice Agent team.

@@ -2,9 +2,6 @@ import { defineConfig } from 'vite'
 import fs from 'fs'
 import path from 'path'
 
-const ROLE_IDS = ['commander', 'builder', 'miner', 'defender', 'explorer', 'coder']
-const AGENT_IDS = ['marlow', 'juniper', 'wren', 'kit', 'rowan', 'tove']
-
 // The status page's images ship inside the npm package
 function copyViewerAssets() {
   return {
@@ -14,9 +11,12 @@ function copyViewerAssets() {
       const to = path.resolve(__dirname, 'dist-cli/viewer-assets')
       fs.mkdirSync(path.join(to, 'icons'), { recursive: true })
       fs.mkdirSync(path.join(to, 'portraits'), { recursive: true })
-      const icons = ['logo_small', ...ROLE_IDS.map(id => `role_${id}`)]
-      icons.forEach(name => fs.copyFileSync(path.join(from, 'icons', `${name}.png`), path.join(to, 'icons', `${name}.png`)))
-      AGENT_IDS.forEach(id => fs.copyFileSync(path.join(from, 'portraits', `${id}.png`), path.join(to, 'portraits', `${id}.png`)))
+      const copy = (folder: string, wanted: RegExp) =>
+        fs.readdirSync(path.join(from, folder))
+          .filter(name => wanted.test(name))
+          .forEach(name => fs.copyFileSync(path.join(from, folder, name), path.join(to, folder, name)))
+      copy('icons', /^(logo_small|role_.*)\.png$/)
+      copy('portraits', /^(?!.*_framed).*\.png$/)
     }
   }
 }

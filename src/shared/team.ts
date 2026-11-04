@@ -26,7 +26,15 @@ export const TEAM: { id: string; role: AgentRole }[] = [
   { id: 'flint', role: 'devops' },
   { id: 'onyx', role: 'security' },
   { id: 'clover', role: 'qa' },
-  { id: 'page', role: 'tech_writer' }
+  { id: 'page', role: 'tech_writer' },
+
+  { id: 'hazel', role: 'admin' },
+  { id: 'heath', role: 'customer_support' },
+  { id: 'lark', role: 'social_media' },
+  { id: 'maple', role: 'content_writer' },
+  { id: 'sorrel', role: 'marketer' },
+  { id: 'indigo', role: 'graphic_designer' },
+  { id: 'ember', role: 'video_producer' }
 ];
 
 export const TEAM_IDS = TEAM.map(member => member.id);

@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { AppSettings } from '@shared/types';
+import { RETIRED_MODELS } from '@shared/models';
 
 /** The desktop app passes the OS keychain here. The headless server has no keychain. */
 export interface SettingsCipher {
@@ -45,6 +46,7 @@ export class SettingsStore {
       providers[name] = { ...providers[name], ...value };
       // A key set in the environment still applies until one is saved here
       if ('apiKey' in value && !value.apiKey) providers[name].apiKey = (defaults.providers as any)[name]?.apiKey;
+      if (RETIRED_MODELS.includes(providers[name].model)) providers[name].model = (defaults.providers as any)[name]?.model;
     }
 
     return {

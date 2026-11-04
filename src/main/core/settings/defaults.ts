@@ -1,5 +1,6 @@
 import { AppSettings } from '@shared/types';
 import { createDefaultMinecraftSettings } from '@shared/minecraft';
+import { DEFAULT_MODELS } from '@shared/models';
 
 export const DEFAULT_VIEWER_PORT = 8787;
 
@@ -20,30 +21,23 @@ export function createDefaultSettings(workspacePath: string, language = 'en'): A
     providers: {
       openrouter: {
         apiKey: process.env.OPENROUTER_API_KEY || '',
-        model: 'meta-llama/llama-3.3-70b-instruct:free',
-        availableFreeModels: [
-          'meta-llama/llama-3.3-70b-instruct:free',
-          'google/gemini-2.0-flash-exp:free',
-          'deepseek/deepseek-r1:free',
-          'mistralai/mistral-7b-instruct:free',
-          'qwen/qwen-2.5-72b-instruct:free'
-        ]
+        model: DEFAULT_MODELS.openrouter
       },
       gemini: {
         apiKey: process.env.GEMINI_API_KEY || '',
-        model: 'gemini-2.5-flash'
+        model: DEFAULT_MODELS.gemini
       },
       claude: {
         apiKey: process.env.ANTHROPIC_API_KEY || '',
-        model: 'claude-sonnet-5-5'
+        model: DEFAULT_MODELS.claude
       },
       openai: {
         apiKey: process.env.OPENAI_API_KEY || '',
-        model: 'gpt-4o'
+        model: DEFAULT_MODELS.openai
       },
       ollama: {
         baseUrl: process.env.OLLAMA_BASE_URL || 'http://localhost:11434',
-        model: 'llama3'
+        model: DEFAULT_MODELS.ollama
       }
     },
     activeDefaultProvider: 'openrouter',

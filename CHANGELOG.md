@@ -1,8 +1,62 @@
 # Changelog
 
+## 0.2.0
+
+### เพิ่มอะไรบ้าง
+
+- ทีมใหม่ 7 คน รวมเป็น 30 คน ใน 3 แผนกใหม่: แอดมินและดูแลลูกค้า, การตลาดและคอนเทนต์, ครีเอทีฟ
+- แอดมินสำนักงาน แอดมินดูแลลูกค้า แอดมินโซเชียลมีเดีย นักเขียนคอนเทนต์ นักการตลาด นักออกแบบกราฟิก และผู้ผลิตวิดีโอ
+- สั่งงานธุรกิจได้จากโหมด Project โดย Commander จะข้ามขั้นตอนซอฟต์แวร์และส่งงานให้ผู้รับผิดชอบโดยตรง
+- โลโก้กำกับ AI แต่ละเจ้าในหน้าตั้งค่า หน้าเริ่มต้น และหน้าทีม ทำให้เห็นว่าพนักงานแต่ละคนใช้ AI เจ้าไหน
+- ตั้งชื่อโมเดลเองได้ทุกเจ้าในหน้าตั้งค่า AI
+
+### แก้ไขอะไรบ้าง
+
+- OpenRouter: โมเดลฟรีเดิมถูกถอดออกทั้งหมด จึงเปลี่ยนไปใช้ `openrouter/free`
+- Claude: เลิกส่ง `temperature` ที่รุ่นปัจจุบันปฏิเสธ และอ่านคำตอบได้ถูกต้องเมื่อมีช่วงคิดนำหน้า
+- OpenAI: เปลี่ยนเป็น GPT-6 Luna และส่งพารามิเตอร์ตามที่รุ่นใหม่รับ โดยบริการที่เข้ากันได้กับ OpenAI ยังใช้ของเดิม
+- Gemini: เปลี่ยนเป็น Gemini 3.8 Flash และย้าย API key ออกจาก URL ไปไว้ใน header
+- ค่าโมเดลเก่าที่บันทึกไว้จะย้ายไปรุ่นปัจจุบันโดยอัตโนมัติ
+- หน้าสถานะแสดงภาพพนักงานครบทุกคน จากเดิมที่แสดงแค่ 6 คนแรก
+- คำสั่งติดตั้งไม่ชี้ไปที่แพ็กเกจ npm ที่ยังไม่มีอีกต่อไป
+
+### ใบอนุญาต
+
+- เปลี่ยนเป็น Business Source License 1.1: ใช้ ดัดแปลง และหารายได้จากการใช้งานได้ แต่ห้ามขายตัวโปรแกรม
+- แต่ละเวอร์ชันจะเปลี่ยนเป็น Apache License 2.0 เมื่อครบ 4 ปี โดยเวอร์ชันนี้คือ 2030-11-05
+
+### ยังไม่ได้ทดสอบ
+
+- ยังไม่ได้ทดสอบกับ AI จริงด้วย API key และยังไม่ได้ลองให้ทั้ง 30 คนเข้าโลก Minecraft พร้อมกัน
+
+### Added
+
+- Seven new team members in three new departments, making 30: Office Administrator, Customer Support, Social Media Manager, Content Writer, Marketing Specialist, Graphic Designer and Video Producer
+- Business work from Project mode, where the Commander skips the software steps
+- A logo for each AI service in AI Settings, Setup and Team, including which service each team member uses
+- A model name field for every AI service
+
+### Fixed
+
+- OpenRouter: every old free model is gone, so the default is now `openrouter/free`
+- Claude: no longer sends `temperature`, which current models reject, and finds the answer after a thinking block. A refusal is now an error
+- OpenAI: defaults to `gpt-6-luna` and sends the fields it accepts. Compatible services keep the older fields
+- Gemini: defaults to `gemini-3.8-flash`, reads answers made of several parts, and sends the key in a header instead of the URL
+- Saved settings that name a retired model move to the current one
+- The status page shows a picture for everyone, not only the first six
+- The install command no longer points to an npm package that does not exist
+
+### Changed
+
+- License: Business Source License 1.1. Use it, change it and earn money with it, but do not sell it. Each version becomes Apache License 2.0 four years after release, which is 2030-11-05 for this one
+
+### Not tested yet
+
+- Live AI services with a real key, and all 30 characters in one world at once
+
 ## 0.1.0
 
-First public release. See "What has been tested" in the README for what has and has not been run on a real server.
+Early release, not published. See "What has been tested" in the README for what has and has not been run on a real server.
 
 - A team of 23 AI characters across product, design, engineering and quality, with enforced roles
 - Whole-project mode: tasks with dependencies run in parallel on a shared branch, with approvals for requirements and design, Tech Lead review, and one final review

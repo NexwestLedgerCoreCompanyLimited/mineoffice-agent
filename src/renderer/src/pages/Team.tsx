@@ -3,7 +3,8 @@ import { useAppStore } from '../stores/useAppStore';
 import { AgentRole, LLMProvider } from '@shared/types';
 import { ROLE_DEFINITIONS, ROLE_ORDER, roleName, roleSummary } from '@shared/roles';
 import { t, TranslationKey, tDynamic } from '@shared/i18n';
-import { firstName, PixelIcon, Portrait } from '../components/ui';
+import { isProviderConfigured } from '@shared/models';
+import { firstName, PixelIcon, Portrait, ProviderLogo } from '../components/ui';
 
 const providerOptions = (): { id: LLMProvider | 'default'; label: string }[] => [
   { id: 'default', label: t('team.brainDefault') },
@@ -68,6 +69,13 @@ export const Team: React.FC = () => {
   const selected = agents.find(a => a.id === selectedAgentId) || agents[0];
   if (!selected) return null;
 
+  // What really answers: a chosen service with no key falls back to the team's main one
+  const brainOf = (agentId: string): LLMProvider => {
+    const chosen = settings.agentProviders[agentId];
+    return chosen && chosen !== 'default' && isProviderConfigured(settings, chosen) ? chosen : settings.activeDefaultProvider;
+  };
+  const brainName = (provider: LLMProvider) => providerOptions().find(option => option.id === provider)!.label;
+
   const role = ROLE_DEFINITIONS[selected.role];
   const roleSkills = skills.filter(skill => role.skillCategories.includes(skill.category));
   const worksInOffice = !ROLE_DEFINITIONS[selected.role].inGame;
@@ -126,6 +134,7 @@ export const Team: React.FC = () => {
                   <span className="block text-[15px] font-bold">{firstName(agent)}</span>
                   <span className="block text-[13px] text-muted">{roleName(agent.role)}</span>
                 </span>
+                <ProviderLogo provider={brainOf(agent.id)} size={20} label={brainName(brainOf(agent.id))} />
                 <PixelIcon src={ROLE_DEFINITIONS[agent.role].icon} size={24} />
               </button>
             );
@@ -185,16 +194,19 @@ export const Team: React.FC = () => {
               <h3 className="text-[15px]">
                 <label htmlFor="agent-model">{t('team.brain')}</label>
               </h3>
-              <select
-                id="agent-model"
-                className="field"
-                value={settings.agentProviders[selected.id] || 'default'}
-                onChange={e => setAgentProvider(selected.id, e.target.value as LLMProvider | 'default')}
-              >
-                {providerOptions().map(option => (
-                  <option key={option.id} value={option.id}>{option.label}</option>
-                ))}
-              </select>
+              <div className="flex items-center gap-2.5">
+                <ProviderLogo provider={brainOf(selected.id)} size={28} />
+                <select
+                  id="agent-model"
+                  className="field"
+                  value={settings.agentProviders[selected.id] || 'default'}
+                  onChange={e => setAgentProvider(selected.id, e.target.value as LLMProvider | 'default')}
+                >
+                  {providerOptions().map(option => (
+                    <option key={option.id} value={option.id}>{option.label}</option>
+                  ))}
+                </select>
+              </div>
               <p className="text-[13px] leading-normal text-muted">{t('team.brainHint')}</p>
             </div>
           </div>

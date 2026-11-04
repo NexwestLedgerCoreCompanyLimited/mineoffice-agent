@@ -7,6 +7,8 @@ import { SwarmOrchestrator } from '@main/core/foreman/orchestrator';
 import { createDefaultSettings } from '@main/core/settings/defaults';
 import { validateImages } from '@main/core/agent/images';
 import { MultiLLMProvider } from '@main/core/llm/provider';
+import { SettingsStore } from '@main/core/settings/settingsStore';
+import { DEFAULT_MODELS, RETIRED_MODELS } from '@shared/models';
 import { TEAM, TEAM_IDS } from '@shared/team';
 import { ROLE_DEFINITIONS, ROLE_ORDER, inferRole, joinsWorld } from '@shared/roles';
 import { LANGUAGES, tDynamic } from '@shared/i18n';
@@ -101,8 +103,10 @@ function testRoster() {
 
   const license = fs.readFileSync(path.join(ROOT, 'LICENSE'), 'utf8');
   const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
-  check('the license forbids selling and allows earning', /You may not:[\s\S]*Sell the Software/.test(license) && /Earn money from your own services/.test(license));
-  check('the package points at it', pkg.license === 'SEE LICENSE IN LICENSE' && pkg.files.includes('NOTICE.md'));
+  check('the license allows earning and forbids selling', /^Additional Use Grant:[\s\S]*to earn money[\s\S]*do not Sell the Licensed Work/m.test(license));
+  check('the license becomes Apache 2.0', /^Change License: +Apache License, Version 2\.0$/m.test(license) && /^Change Date: +\d{4}-\d{2}-\d{2}$/m.test(license));
+  check('the license names this version', license.includes(`MineOffice Agent ${pkg.version}\n`), pkg.version);
+  check('the package points at it', pkg.license === 'BUSL-1.1' && pkg.files.includes('NOTICE.md'));
 }
 
 async function testPlanning() {
@@ -430,7 +434,7 @@ async function testImages() {
   await llm.complete(message, { provider: 'openrouter' });
   check('OpenRouter gets the same', sent.messages[0].content[1].image_url.url.startsWith('data:image/png;base64,') && url.includes('openrouter'));
 
-  answer = json({ content: [{ text: 'seen' }] });
+  answer = json({ content: [{ type: 'text', text: 'seen' }] });
   await llm.complete(message, { provider: 'claude' });
   const claudePart = sent.messages[0].content[0];
   check('Claude gets raw base64 with its type', claudePart.type === 'image' && claudePart.source.type === 'base64' && claudePart.source.media_type === 'image/png' && claudePart.source.data === PNG, JSON.stringify(sent));
@@ -500,6 +504,102 @@ async function testImages() {
   await orchestrator.git.discardWorktree('robin', 'image-check');
 }
 
+async function testServices() {
+  console.log('\n== what each AI service is sent, and how its answer is read');
+  const realFetch = globalThis.fetch;
+  let sent: any, url = '', headers: any = {}, answer: object = {};
+  globalThis.fetch = (async (target: string, init: any) => {
+    url = String(target);
+    headers = init.headers;
+    sent = JSON.parse(init.body);
+    return new Response(JSON.stringify(answer), { status: 200 });
+  }) as any;
+  const settings = createDefaultSettings(TMP);
+  for (const name of ['openrouter', 'gemini', 'claude', 'openai'] as const) settings.providers[name].apiKey = 'secret-key';
+  const llm = new MultiLLMProvider(settings);
+  const hello = [{ role: 'user' as const, content: 'Hi' }];
+
+  answer = { stop_reason: 'end_turn', content: [{ type: 'thinking', thinking: '' }, { type: 'text', text: 'one ' }, { type: 'text', text: 'two' }] };
+  check('Claude: the answer is found after a thinking block', (await llm.complete(hello, { provider: 'claude', temperature: 0.2 })) === 'one two');
+  check('Claude: temperature is never sent', !('temperature' in sent), JSON.stringify(sent));
+  check('Claude: there is room to think', sent.max_tokens >= 16000, sent.max_tokens);
+  check('Claude: the default is a current model', sent.model === 'claude-sonnet-5-5', sent.model);
+  answer = { stop_reason: 'refusal', content: [] };
+  const refused = await llm.complete(hello, { provider: 'claude' }).then(() => '', err => err.message);
+  check('Claude: a refusal is an error, not an empty answer', refused.includes('declined'), refused);
+
+  answer = { choices: [{ message: { content: 'ok' } }] };
+  await llm.complete(hello, { provider: 'openai', temperature: 0.2 });
+  check('OpenAI: GPT-6 gets the fields it accepts', !('temperature' in sent) && !('max_tokens' in sent) && sent.max_completion_tokens >= 16000, JSON.stringify(sent));
+  settings.providers.openai.baseUrl = 'http://localhost:1234/v1';
+  await llm.complete(hello, { provider: 'openai', temperature: 0.2 });
+  check('OpenAI: compatible services keep the older fields', sent.temperature === 0.2 && sent.max_tokens === 2048 && !('max_completion_tokens' in sent), JSON.stringify(sent));
+  delete settings.providers.openai.baseUrl;
+
+  answer = { candidates: [{ content: { parts: [{ text: 'hmm', thought: true }, { text: 'one ' }, { text: 'two' }] } }] };
+  check('Gemini: thoughts are left out and parts are joined', (await llm.complete(hello, { provider: 'gemini' })) === 'one two');
+  check('Gemini: the key stays out of the URL', !url.includes('secret-key') && headers['x-goog-api-key'] === 'secret-key', url);
+
+  answer = { choices: [{ message: { content: 'ok' } }] };
+  await llm.complete(hello, { provider: 'openrouter' });
+  check('OpenRouter: the default survives free models changing', sent.model === 'openrouter/free', sent.model);
+  globalThis.fetch = realFetch;
+
+  const folder = path.join(TMP, 'old-settings');
+  fs.mkdirSync(folder, { recursive: true });
+  const old = createDefaultSettings(folder);
+  old.providers.openrouter.model = RETIRED_MODELS[0];
+  old.providers.gemini.model = 'gemini-2.5-flash';
+  old.providers.openai.model = 'my-own-model';
+  fs.writeFileSync(path.join(folder, 'settings.json'), JSON.stringify(old));
+  const loaded = new SettingsStore(folder).load(createDefaultSettings(folder));
+  check('a saved model that is gone moves to the current one', loaded.providers.openrouter.model === DEFAULT_MODELS.openrouter && loaded.providers.gemini.model === DEFAULT_MODELS.gemini);
+  check('a model you chose yourself is left alone', loaded.providers.openai.model === 'my-own-model');
+}
+
+async function testBusinessTeam() {
+  console.log('\n== office, marketing and creative departments');
+  check('social media goes to the social manager', inferRole('ทำโพสต์เฟซบุ๊กโปรโมตร้าน', 'research') === 'social_media');
+  check('campaigns go to marketing', inferRole('Plan a launch campaign', 'research') === 'marketer');
+  check('customer replies go to support', inferRole('ร่างคำตอบลูกค้าเรื่องคืนเงิน', 'research') === 'customer_support');
+  check('schedules go to the admin', inferRole('จัดตารางงานสัปดาห์หน้า', 'research') === 'admin');
+  check('scripts for video go to the producer', inferRole('Plan a video for the launch', 'research') === 'video_producer');
+  check('logos go to the graphic designer', inferRole('ออกแบบโลโก้ร้าน', 'code') === 'graphic_designer');
+  check('plain research still goes to the analyst', inferRole('Compare two databases', 'research') === 'business_analyst');
+  check('those who cannot publish say so', ['social_media', 'customer_support', 'admin'].every(role => /cannot/.test(ROLE_DEFINITIONS[role as 'admin'].prompt)));
+  check('every department is in the chart', ROLE_ORDER.every(role => ['command', 'field', 'product', 'design', 'engineering', 'quality', 'admin', 'marketing', 'creative'].includes(ROLE_DEFINITIONS[role].department)));
+
+  const { repo, git } = makeRepo();
+  const SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4"/></svg>';
+  const { orchestrator, calls, task } = makeTeam(repo, call => {
+    if (isPlanning(call)) return JSON.stringify([
+      { id: 'a', title: 'Month of posts', description: 'Write them', assignedRole: 'social_media', category: 'code', dependsOn: [] },
+      { id: 'b', title: 'Cafe logo', description: 'Draw it', assignedRole: 'graphic_designer', category: 'code', dependsOn: ['a'] }
+    ]);
+    if (isChoosingFiles(call)) return '[]';
+    if (isReview(call)) return '{"approved":true}';
+    if (call.user.includes('Task: Cafe logo')) return file('brand/logo.svg', SVG);
+    return 'Week 1: opening post';
+  });
+  orchestrator.canAskForApproval = true;
+
+  const { tasks } = await orchestrator.planGoalWithDetails('Plan posts and a logo for a cafe', 'project');
+  check('the Commander is told about the new departments', calls[0].system.includes('- social_media:') && calls[0].system.includes('- graphic_designer:') && calls[0].system.includes('skip the software steps'));
+  check('work goes to the right person', task(tasks[0].id).assignedAgentId === 'lark' && task(tasks[1].id).assignedAgentId === 'indigo', JSON.stringify(tasks.map(t => t.assignedAgentId)));
+  check('a role that only writes stays on written work', task(tasks[0].id).category === 'research');
+  check('the graphic designer can change files', task(tasks[1].id).category === 'code');
+
+  await (await orchestrator.startRun(tasks.map(t => t.id))).done;
+  check('both tasks finished', tasks.every(t => task(t.id).status === 'done'), JSON.stringify(tasks.map(t => [task(t.id).status, task(t.id).lastError])));
+  check('the post plan is kept as a result', !!task(tasks[0].id).result?.includes('Week 1'));
+  check('the designer sees what came before', calls.some(call => call.user.includes('Task: Cafe logo') && call.user.includes('Week 1')));
+
+  const final = orchestrator.getDecisions().find(d => d.runId && d.status === 'pending')!;
+  check('you review the drawing first', !!final && final.diffContent!.includes('brand/logo.svg'), final?.diffContent);
+  await orchestrator.answerDecision(final.id, true);
+  check('approving puts the SVG in your project', fs.existsSync(path.join(repo, 'brand/logo.svg')) && fs.readFileSync(path.join(repo, 'brand/logo.svg'), 'utf8').trim() === SVG, git('log', '--oneline'));
+}
+
 async function main() {
   testRoster();
   await testPlanning();
@@ -509,6 +609,8 @@ async function main() {
   await testCheckpoints();
   await testProject();
   await testImages();
+  await testServices();
+  await testBusinessTeam();
 }
 
 main()

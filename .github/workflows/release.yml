@@ -23,6 +23,11 @@ jobs:
       - run: node scripts/run-tests.mjs
       - name: The tag matches package.json
         run: test "v$(node -p "require('./package.json').version")" = "$GITHUB_REF_NAME"
+      - name: The license and changelog name this version
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          grep -q "^Licensed Work: *MineOffice Agent $version\$" LICENSE
+          grep -q "^## $version\$" CHANGELOG.md
 
   desktop:
     needs: test
@@ -74,7 +79,9 @@ jobs:
         run: |
           prerelease=""
           case "$GITHUB_REF_NAME" in v0.*|*-*) prerelease="--prerelease" ;; esac
-          gh release create "$GITHUB_REF_NAME" --generate-notes $prerelease mineoffice-agent-*.tgz artifacts/*/*
+          # The notes are this version's section of the changelog
+          awk -v heading="## ${GITHUB_REF_NAME#v}" '$0 == heading { found = 1; next } found && /^## / { exit } found' CHANGELOG.md > notes.md
+          gh release create "$GITHUB_REF_NAME" --notes-file notes.md $prerelease mineoffice-agent-*.tgz artifacts/*/*
 
   npm:
     needs: release

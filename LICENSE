@@ -1,99 +1,121 @@
-MineOffice Business License, version 1.0
+Business Source License 1.1
 
-Copyright (c) 2026 MineOffice Agent Contributors. All rights reserved, except
-for the rights this license gives you.
+License text copyright (c) 2017 MariaDB Corporation Ab, All Rights Reserved.
+"Business Source License" is a trademark of MariaDB Corporation Ab.
 
-This license is for MineOffice Agent and anything made from it (the "Software").
-You can use it to make money, but you cannot sell the Software itself. This is a
-source-available license. It is not an open source license.
+-----------------------------------------------------------------------------
 
+Parameters
 
-1. WHAT YOU MAY DO
+Licensor:             MineOffice Agent Contributors
 
-Free of charge, and for any purpose including making money, you may:
+Licensed Work:        MineOffice Agent 0.2.0
+                      The Licensed Work is (c) 2026 MineOffice Agent Contributors
 
-  a. Use, run and copy the Software, including on your own online servers.
+Additional Use Grant: You may make production use of the Licensed Work, and of
+                      versions you have modified and works you have derived
+                      from it, for any purpose, including to earn money, as
+                      long as you do not Sell the Licensed Work.
 
-  b. Change it in any way: fix it, extend it, add features, or build on it.
+                      "Sell the Licensed Work" means giving a third party the
+                      Licensed Work, a modified version of it, or a work
+                      derived from it, in exchange for money or anything else
+                      of value. This includes charging for a copy, a download,
+                      an installation or a license; selling it alone, in a
+                      bundle or as part of a paid product; renting, leasing or
+                      sublicensing it for a fee; and offering it to third
+                      parties as a paid hosted service whose main value is the
+                      Licensed Work itself.
 
-  c. Earn money from your own services, servers, content and customers while
-     using the Software or your changed version of it. For example, you may run
-     a paid Minecraft server that uses it, or use it to do paid work for clients.
+                      For example, this grant lets you run the Licensed Work
+                      on your own servers, including a paid Minecraft server;
+                      use it to do paid work for your clients; and charge for
+                      your own services and results.
 
-  d. Give copies to others for free, changed or not, if they receive this license
-     with the copy and you follow section 3.
+                      Things you make by using the Licensed Work, such as
+                      Minecraft worlds and builds, documents, graphics, and
+                      code the AI team writes in your own projects, are not
+                      part of the Licensed Work. They are yours and you may
+                      sell them.
 
+Change Date:          2030-11-05
 
-2. WHAT YOU MAY NOT DO
+Change License:       Apache License, Version 2.0
 
-You may not:
+For information about alternative licensing arrangements for the Licensed Work,
+please open an issue in the project's repository.
 
-  a. Sell the Software or a changed version of it. This includes charging money
-     or anything else of value for a copy, a download, an installation or a
-     license, and selling it alone or as part of a bundle or a paid product.
+Notice
 
-  b. Rent or lease the Software, or sublicense it for a fee.
+The Business Source License (this document, or the "License") is not an Open
+Source license. However, the Licensed Work will eventually be made available
+under an Open Source License, as stated in this License.
 
-  c. Charge others mainly for access to the Software itself, such as offering it
-     to the public as a paid hosted product.
+-----------------------------------------------------------------------------
 
-  d. Deliver the Software or a changed version of it to a client as something
-     that client pays for. You may be paid for your work, your results and your
-     services, but not for a copy of the Software.
+Terms
 
+The Licensor hereby grants you the right to copy, modify, create derivative
+works, redistribute, and make non-production use of the Licensed Work. The
+Licensor may make an Additional Use Grant, above, permitting limited
+production use.
 
-3. NAME AND COPYRIGHT
+Effective on the Change Date, or the fourth anniversary of the first publicly
+available distribution of a specific version of the Licensed Work under this
+License, whichever comes first, the Licensor hereby grants you rights under
+the terms of the Change License, and the rights granted in the paragraph
+above terminate.
 
-  a. You may not remove or change the name "MineOffice", the copyright notice
-     above, or this license, in the Software or in any changed version.
+If your use of the Licensed Work does not comply with the requirements
+currently in effect as described in this License, you must purchase a
+commercial license from the Licensor, its affiliated entities, or authorized
+resellers, or you must refrain from using the Licensed Work.
 
-  b. You may not sell, publish or present a changed version under another name.
-     You must say clearly that it was changed, for example "MineOffice, modified
-     by Example Server".
+All copies of the original and modified Licensed Work, and derivative works
+of the Licensed Work, are subject to this License. This License applies
+separately for each version of the Licensed Work and the Change Date may vary
+for each version of the Licensed Work released by Licensor.
 
-  c. You may add your own name for your own changes, as long as the original name
-     and copyright stay in place.
+You must conspicuously display this License on each original or modified copy
+of the Licensed Work. If you receive the Licensed Work in original or
+modified form from a third party, the terms and conditions set forth in this
+License apply to your use of that work.
 
+Any use of the Licensed Work in violation of this License will automatically
+terminate your rights under this License for the current and all other
+versions of the Licensed Work.
 
-4. WHAT YOU MAKE IS YOURS
+This License does not grant you any right in any trademark or logo of
+Licensor or its affiliates (provided that you may use a trademark or logo of
+Licensor as expressly required by this License).
 
-This license does not restrict things you make by using the Software, such as your
-Minecraft worlds and builds, or code an AI team writes in your own projects. They
-are yours, and you may sell them.
+TO THE EXTENT PERMITTED BY APPLICABLE LAW, THE LICENSED WORK IS PROVIDED ON
+AN “AS IS” BASIS. LICENSOR HEREBY DISCLAIMS ALL WARRANTIES AND CONDITIONS,
+EXPRESS OR IMPLIED, INCLUDING (WITHOUT LIMITATION) WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, AND
+TITLE.
 
-Your changes to the Software itself remain part of the Software, so section 2
-applies to them.
+MariaDB hereby grants you permission to use this License’s text to license
+your works, and to refer to it using the trademark “Business Source License”,
+as long as you comply with the Covenants of Licensor below.
 
+Covenants of Licensor
 
-5. CONTRIBUTIONS
+In consideration of the right to use this License’s text and the “Business
+Source License” name and trademark, Licensor covenants to MariaDB, and to all
+other recipients of the licensed work to be provided by Licensor:
 
-If you send a contribution to this project, you agree that it is covered by this
-license, and that the copyright holders may use it, change it and license it under
-any terms, including future versions of this license.
+1. To specify as the Change License the GPL Version 2.0 or any later version,
+   or a license that is compatible with GPL Version 2.0 or a later version,
+   where “compatible” means that software provided under the Change License can
+   be included in a program with software provided under GPL Version 2.0 or a
+   later version. Licensor may specify additional Change Licenses without
+   limitation.
 
+2. To either: (a) specify an additional grant of rights to use that does not
+   impose any additional restriction on the right granted in this License, as
+   the Additional Use Grant; or (b) insert the text “None”.
 
-6. OTHER PEOPLE'S WORK
+3. To specify a Change Date.
 
-Parts of the Software come from other people under their own licenses. NOTICE.md
-lists them, and those licenses still apply to those parts.
-
-
-7. IF YOU BREAK THESE TERMS
-
-Your rights under this license end if you break it. They come back if you fix the
-problem within 30 days of being told about it, unless you have already been told
-about a breach of this license before.
-
-Selling the Software against these terms is not allowed, however it is described
-or structured.
-
-
-8. NO WARRANTY
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. YOU ARE RESPONSIBLE FOR
-FOLLOWING THE RULES OF ANY GAME OR SERVER YOU USE IT WITH.
+4. Not to modify this License in any other way.

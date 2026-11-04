@@ -35,4 +35,8 @@ Open an issue with the same template, and say where you saw it, what it says, an
 
 ## License of your contribution
 
-MineOffice uses the [MineOffice Business License](LICENSE). By sending a contribution you agree it is covered by that license, as section 5 explains. Please only send work you have the right to give.
+MineOffice uses the [Business Source License 1.1](LICENSE). By sending a contribution you agree it is covered by that license, and that the maintainers may use it, change it and license it under any terms, including future versions and the Apache License 2.0 on the change date. Please only send work you have the right to give.
+
+## Making a release
+
+Each version has its own change date, four years after its release. Before tagging, update `Licensed Work` and `Change Date` in `LICENSE`, the version in `package.json`, and add a section to `CHANGELOG.md`, which becomes the release notes.

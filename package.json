@@ -1,14 +1,18 @@
 {
   "name": "mineoffice-agent",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
-  "description": "An AI team for Minecraft and your code: a whole software company of agents, a desktop app, Linux server mode, MCP client and server, and a shareable status page",
-  "license": "SEE LICENSE IN LICENSE",
+  "description": "An AI team for Minecraft, your code and your business: 30 agents across engineering, marketing, content, graphics and admin, a desktop app, Linux server mode, MCP client and server, and a shareable status page",
+  "license": "BUSL-1.1",
   "author": {
     "name": "MineOffice Agent Contributors",
     "email": "noreply@mineoffice.invalid"
   },
-  "homepage": "https://www.npmjs.com/package/mineoffice-agent",
+  "homepage": "https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent.git"
+  },
   "main": "dist-electron/main/index.mjs",
   "bin": {
     "mineoffice-agent": "dist-cli/cli.mjs"

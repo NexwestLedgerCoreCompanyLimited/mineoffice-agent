@@ -1,4 +1,8 @@
 import { LLMProvider, AppSettings, ImageAttachment } from '@shared/types';
+import { DEFAULT_MODELS, isProviderConfigured } from '@shared/models';
+
+// These models think before they answer, and that thinking counts toward the limit
+const THINKING_MODEL_MAX_TOKENS = 16000;
 
 export interface ChatMessage {
   role: 'system' | 'user' | 'assistant';
@@ -37,20 +41,13 @@ export class MultiLLMProvider {
     this.settings = settings;
   }
 
-  /** Ollama needs no key, so it counts as configured only when chosen as the default. */
-  private isConfigured(provider: LLMProvider): boolean {
-    if (provider === 'ollama') return this.settings.activeDefaultProvider === 'ollama';
-    if (provider === 'openai' && this.settings.providers.openai.baseUrl) return true;
-    return !!this.settings.providers[provider].apiKey;
-  }
-
   public async complete(
     messages: ChatMessage[],
     options: CompletionOptions = {}
   ): Promise<string> {
     // An agent's preferred provider may have no key yet. Its model name only fits that
     // provider, so falling back to the default also falls back to the default's model.
-    const usable = options.provider && this.isConfigured(options.provider);
+    const usable = options.provider && isProviderConfigured(this.settings, options.provider);
     if (!usable) {
       options = { ...options, provider: this.settings.activeDefaultProvider, model: undefined };
     }
@@ -82,18 +79,14 @@ export class MultiLLMProvider {
 
   /**
    * OpenRouter Provider
-   * Supports any OpenRouter model, including 100% free models like:
-   * - meta-llama/llama-3.3-70b-instruct:free
-   * - google/gemini-2.0-flash-exp:free
-   * - deepseek/deepseek-r1:free
-   * - mistralai/mistral-7b-instruct:free
+   * Supports any OpenRouter model, including free ones.
    */
   private async completeOpenRouter(
     messages: ChatMessage[],
     options: CompletionOptions
   ): Promise<string> {
     const apiKey = this.settings.providers.openrouter.apiKey;
-    const model = options.model || this.settings.providers.openrouter.model || 'meta-llama/llama-3.3-70b-instruct:free';
+    const model = options.model || this.settings.providers.openrouter.model || DEFAULT_MODELS.openrouter;
 
     if (!apiKey) {
       throw new Error('OpenRouter API key is required. Please set it in Settings.');
@@ -109,7 +102,7 @@ export class MultiLLMProvider {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`,
-        'HTTP-Referer': 'https://github.com/mineoffice-agent',
+        'HTTP-Referer': 'https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent',
         'X-Title': 'MineOffice Agent Studio'
       },
       body: JSON.stringify({
@@ -137,7 +130,7 @@ export class MultiLLMProvider {
     options: CompletionOptions
   ): Promise<string> {
     const apiKey = this.settings.providers.gemini.apiKey;
-    const model = options.model || this.settings.providers.gemini.model || 'gemini-2.5-flash';
+    const model = options.model || this.settings.providers.gemini.model || DEFAULT_MODELS.gemini;
 
     if (!apiKey) {
       throw new Error('Gemini API key is required. Please set it in Settings.');
@@ -162,10 +155,10 @@ export class MultiLLMProvider {
       };
     }
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`;
     const res = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
       body: JSON.stringify(body)
     });
 
@@ -175,7 +168,8 @@ export class MultiLLMProvider {
     }
 
     const data = await res.json();
-    return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const parts: any[] = data.candidates?.[0]?.content?.parts || [];
+    return parts.filter(part => part.text && !part.thought).map(part => part.text).join('');
   }
 
   /**
@@ -186,7 +180,7 @@ export class MultiLLMProvider {
     options: CompletionOptions
   ): Promise<string> {
     const apiKey = this.settings.providers.claude.apiKey;
-    const model = options.model || this.settings.providers.claude.model || 'claude-3-7-sonnet-20250219';
+    const model = options.model || this.settings.providers.claude.model || DEFAULT_MODELS.claude;
 
     if (!apiKey) {
       throw new Error('Anthropic Claude API key is required. Please set it in Settings.');
@@ -219,8 +213,8 @@ export class MultiLLMProvider {
         model,
         messages: nonSystemMessages,
         system: systemPrompt,
-        max_tokens: options.maxTokens ?? 2048,
-        temperature: options.temperature ?? 0.7
+        // No temperature: current Claude models answer 400 to any value but the default
+        max_tokens: options.maxTokens ?? THINKING_MODEL_MAX_TOKENS
       })
     });
 
@@ -230,7 +224,10 @@ export class MultiLLMProvider {
     }
 
     const data = await res.json();
-    return data.content?.[0]?.text || '';
+    if (data.stop_reason === 'refusal') throw new Error('Claude declined this request.');
+    // Thinking blocks can come before the answer
+    const blocks: any[] = data.content || [];
+    return blocks.filter(block => block.type === 'text').map(block => block.text).join('');
   }
 
   /**
@@ -241,7 +238,7 @@ export class MultiLLMProvider {
     options: CompletionOptions
   ): Promise<string> {
     const apiKey = this.settings.providers.openai.apiKey;
-    const model = options.model || this.settings.providers.openai.model || 'gpt-4o';
+    const model = options.model || this.settings.providers.openai.model || DEFAULT_MODELS.openai;
 
     // Local OpenAI-compatible servers, such as LM Studio, need no key
     const baseUrl = (this.settings.providers.openai.baseUrl || 'https://api.openai.com/v1').replace(/\/+$/, '');
@@ -263,8 +260,10 @@ export class MultiLLMProvider {
       body: JSON.stringify({
         model,
         messages: payloadMessages.map(openAiMessage),
-        temperature: options.temperature ?? 0.7,
-        max_tokens: options.maxTokens ?? 2048
+        // OpenAI's own GPT-6 models reject temperature. Compatible services still use the older names
+        ...(this.settings.providers.openai.baseUrl
+          ? { temperature: options.temperature ?? 0.7, max_tokens: options.maxTokens ?? 2048 }
+          : { max_completion_tokens: options.maxTokens ?? THINKING_MODEL_MAX_TOKENS })
       })
     });
 
@@ -285,7 +284,7 @@ export class MultiLLMProvider {
     options: CompletionOptions
   ): Promise<string> {
     const baseUrl = this.settings.providers.ollama.baseUrl || 'http://localhost:11434';
-    const model = options.model || this.settings.providers.ollama.model || 'llama3';
+    const model = options.model || this.settings.providers.ollama.model || DEFAULT_MODELS.ollama;
 
     const payloadMessages = [...messages];
     if (options.systemPrompt && !payloadMessages.some(m => m.role === 'system')) {

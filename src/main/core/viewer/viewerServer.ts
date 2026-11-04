@@ -3,6 +3,8 @@ import fs from 'fs';
 import http from 'http';
 import https from 'https';
 import path from 'path';
+import { ROLE_ORDER } from '@shared/roles';
+import { TEAM_IDS } from '@shared/team';
 import { PublicStatus, ViewerSettings } from '@shared/types';
 import { VIEWER_CSS, VIEWER_HTML, VIEWER_JS } from './viewerPage';
 
@@ -22,12 +24,10 @@ const SECURITY_HEADERS = {
 };
 
 // Only these images can ever be served, whatever path a request asks for
-const AGENT_IDS = ['marlow', 'juniper', 'wren', 'kit', 'rowan', 'tove'];
-const ROLE_IDS = ['commander', 'builder', 'miner', 'defender', 'explorer', 'coder'];
 const ASSETS = new Map<string, string>([
   ['/assets/logo.png', 'icons/logo_small.png'],
-  ...AGENT_IDS.map((id): [string, string] => [`/assets/${id}.png`, `portraits/${id}.png`]),
-  ...ROLE_IDS.map((id): [string, string] => [`/assets/role_${id}.png`, `icons/role_${id}.png`])
+  ...TEAM_IDS.map((id): [string, string] => [`/assets/${id}.png`, `portraits/${id}.png`]),
+  ...ROLE_ORDER.map((id): [string, string] => [`/assets/role_${id}.png`, `icons/role_${id}.png`])
 ]);
 
 interface ClientRecord {

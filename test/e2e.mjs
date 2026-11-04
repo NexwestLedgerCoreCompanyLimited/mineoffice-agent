@@ -154,7 +154,7 @@ try {
 
   const state = await mcp.call('mineoffice_get_state');
   const stateText = JSON.stringify(state.json);
-  check('get_state works', state.json?.agents?.length === 23, state.text);
+  check('get_state works', state.json?.agents?.length === 30, state.text);
   check('get_state has no secrets', !stateText.includes(SECRET_KEY) && !stateText.includes('super-secret'), stateText);
   check('get_state reports this run\'s server', state.json?.server?.port === 25599, stateText);
 
@@ -220,7 +220,7 @@ try {
   check('right key: 200', statusRes.status === 200);
   const publicText = await statusRes.text();
   const publicData = JSON.parse(publicText);
-  check('status has the team', publicData.agents.length === 23 && publicData.botsOnline >= 1);
+  check('status has the team', publicData.agents.length === 30 && publicData.botsOnline >= 1);
   for (const [label, needle] of [
     ['API key', SECRET_KEY], ['login password', 'super-secret'], ['server address', '25599'], ['server host', '127.0.0.1'],
     ['bot account name', 'WrenSecretName'], ['viewer key', viewerKey], ['commander name', 'BossPlayer'], ['file paths', HOME.replace(/\\/g, '\\\\')],
@@ -238,6 +238,7 @@ try {
     check(`not served: ${route}`, (await get(route)).status === 404);
   }
   check('allowlisted image is served', (await get('/assets/wren.png')).status === 200);
+  check('every team member has a picture', (await get('/assets/indigo.png')).status === 200 && (await get('/assets/role_graphic_designer.png')).status === 200);
   check('logo is served', (await get('/assets/logo.png')).status === 200);
 
   console.log('\n== watch from outside');
@@ -286,7 +287,7 @@ try {
   const alone = new McpClient(['--standalone']);
   await alone.init();
   check('standalone runs its own engine', /running the engine here/.test(alone.stderr), alone.stderr);
-  check('standalone answers tools', (await alone.call('mineoffice_get_state')).json?.agents?.length === 23);
+  check('standalone answers tools', (await alone.call('mineoffice_get_state')).json?.agents?.length === 30);
   const code = await alone.close();
   check('exits when the AI client closes stdin', code === 0, code);
   check('standalone stdout stayed clean', alone.nonJson.length === 0, alone.nonJson.join('|'));

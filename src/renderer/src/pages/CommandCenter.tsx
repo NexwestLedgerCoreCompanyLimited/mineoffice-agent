@@ -39,7 +39,7 @@ const MODES: { id: PlanMode; label: TranslationKey; placeholder: TranslationKey;
     id: 'project',
     label: 'goal.mode.project',
     placeholder: 'goal.placeholder.project',
-    samples: ['goal.sample.project1', 'goal.sample.project2']
+    samples: ['goal.sample.project1', 'goal.sample.project2', 'goal.sample.project3']
   }
 ];
 
@@ -307,7 +307,10 @@ const DEPARTMENTS: { id: Department; label: TranslationKey }[] = [
   { id: 'product', label: 'chart.department.product' },
   { id: 'design', label: 'chart.department.design' },
   { id: 'engineering', label: 'chart.department.engineering' },
-  { id: 'quality', label: 'chart.department.quality' }
+  { id: 'quality', label: 'chart.department.quality' },
+  { id: 'admin', label: 'chart.department.admin' },
+  { id: 'marketing', label: 'chart.department.marketing' },
+  { id: 'creative', label: 'chart.department.creative' }
 ];
 
 const TeamChart: React.FC = () => {

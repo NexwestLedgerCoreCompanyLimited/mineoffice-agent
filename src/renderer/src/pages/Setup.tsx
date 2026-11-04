@@ -3,10 +3,10 @@ import { useAppStore } from '../stores/useAppStore';
 import { LLMProvider, ServerKind } from '@shared/types';
 import { DEFAULT_MC_PORT, parseServerAddress } from '@shared/minecraft';
 import { t } from '@shared/i18n';
-import { LanguageSwitch } from '../components/ui';
+import { LanguageSwitch, ProviderLogo } from '../components/ui';
 import { providers, providerCredential, setProviderCredential } from './AiSettings';
 
-const Choice: React.FC<{ selected: boolean; onSelect: () => void; title: string; detail: string }> = ({ selected, onSelect, title, detail }) => (
+const Choice: React.FC<{ selected: boolean; onSelect: () => void; title: string; detail: string; logo?: React.ReactNode }> = ({ selected, onSelect, title, detail, logo }) => (
   <button type="button" onClick={onSelect} aria-pressed={selected} className={`choice items-center ${selected ? 'on' : ''}`}>
     <span
       className="w-4 h-4 shrink-0"
@@ -17,6 +17,7 @@ const Choice: React.FC<{ selected: boolean; onSelect: () => void; title: string;
       }
       aria-hidden="true"
     />
+    {logo}
     <span className="flex-1 min-w-0">
       <span className="block text-[15px] font-bold">{title}</span>
       <span className="block text-[13px] text-muted">{detail}</span>
@@ -97,7 +98,7 @@ export const Setup: React.FC = () => {
               </div>
               <div className="flex flex-col gap-2">
                 {providerList.map(p => (
-                  <Choice key={p.id} selected={provider === p.id} onSelect={() => pickProvider(p.id)} title={p.name} detail={p.note} />
+                  <Choice key={p.id} selected={provider === p.id} onSelect={() => pickProvider(p.id)} title={p.name} detail={p.note} logo={<ProviderLogo provider={p.id} size={28} />} />
                 ))}
               </div>
               <div className="flex flex-col gap-1.5">

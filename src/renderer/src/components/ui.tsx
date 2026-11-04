@@ -1,5 +1,5 @@
 import React from 'react';
-import { Agent, BotRuntimeState, TaskStatus } from '@shared/types';
+import { Agent, BotRuntimeState, LLMProvider, TaskStatus } from '@shared/types';
 import { ROLE_DEFINITIONS } from '@shared/roles';
 import { TEAM_IDS } from '@shared/team';
 import { LANGUAGES, t, tDynamic } from '@shared/i18n';
@@ -18,6 +18,11 @@ export const Portrait: React.FC<{ agentId: string; size: number }> = ({ agentId,
     </span>
   );
 };
+
+/** The maker's logo, so you can tell at a glance which AI is in use. The name is always next to it or in `label`. */
+export const ProviderLogo: React.FC<{ provider: LLMProvider; size: number; label?: string }> = ({ provider, size, label }) => (
+  <img src={`./assets/providers/${provider}.svg`} alt={label || ''} title={label} className="shrink-0" style={{ width: size, height: size }} />
+);
 
 export const PixelIcon: React.FC<{ src: string; size: number }> = ({ src, size }) => (
   <img className="px" src={src} alt="" style={{ width: size, height: size }} />
