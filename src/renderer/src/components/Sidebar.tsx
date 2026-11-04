@@ -14,7 +14,7 @@ const NAV_ITEMS: { page: AppPage; label: TranslationKey; icon: React.ReactNode }
 ];
 
 export const Sidebar: React.FC = () => {
-  const { page, setPage, agents, decisions, minecraftBots, settings } = useAppStore();
+  const { page, setPage, agents, decisions, minecraftBots, settings, update } = useAppStore();
 
   const pendingReviews = decisions.filter(d => d.status === 'pending').length;
   const crewSize = agents.filter(a => joinsWorld(a.role, settings.minecraft)).length;
@@ -52,6 +52,19 @@ export const Sidebar: React.FC = () => {
       </div>
 
       <div className="mt-auto flex flex-col gap-2">
+        {update.status === 'ready' && (
+          <button type="button" onClick={() => window.electronAPI?.installUpdate()} className="btn btn-primary">
+            {t('update.restart', { version: update.version })}
+          </button>
+        )}
+        {update.status === 'available' && (
+          <button type="button" onClick={() => window.electronAPI?.openReleases()} className="btn btn-ghost">
+            {t('update.download', { version: update.version })}
+          </button>
+        )}
+        {update.status === 'downloading' && (
+          <p role="status" className="px-1 text-[13px] text-muted">{t('update.downloading', { version: update.version, percent: update.percent })}</p>
+        )}
         <button onClick={() => setPage('server')} className="flex flex-col gap-1 p-3 rounded-[10px] bg-panel border border-line text-left">
           <span className="flex items-center gap-2 text-sm font-semibold">
             <Lamp kind={online > 0 ? 'ok' : joining ? 'work' : 'off'} />

@@ -543,5 +543,8 @@
   "chart.department.admin": "Admin and support",
   "chart.department.marketing": "Marketing and content",
   "chart.department.creative": "Creative",
-  "goal.sample.project3": "Plan a month of Facebook posts for a cafe, and draw a logo"
+  "goal.sample.project3": "Plan a month of Facebook posts for a cafe, and draw a logo",
+  "update.restart": "Restart to update to {version}",
+  "update.download": "Download version {version}",
+  "update.downloading": "Downloading version {version}: {percent}%"
 }

@@ -4,11 +4,11 @@
 
 <p align="center">An AI team that works in your Minecraft world, in your code and on your business.<br>Run it as a desktop app, as a headless Linux service, or as a tool another AI can control over MCP.</p>
 
-<p align="center"><b><a href="../../releases">⬇ Download for Windows, macOS or Linux</a></b> · <a href="#install">Linux server without a screen</a></p>
+<p align="center"><b><a href="../../releases/latest">⬇ Download for Windows, macOS or Linux</a></b> · <a href="#install">Linux server without a screen</a></p>
 
 <p align="center">
   <a href="https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/actions/workflows/ci.yml"><img src="https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="../../releases"><img src="https://img.shields.io/github/v/release/NexwestLedgerCoreCompanyLimited/mineoffice-agent?include_prereleases&sort=semver&label=Release" alt="Latest release"></a>
+  <a href="../../releases/latest"><img src="https://img.shields.io/github/v/release/NexwestLedgerCoreCompanyLimited/mineoffice-agent?sort=semver&label=Release" alt="Latest release"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-BSL%201.1-amber.svg" alt="License: BSL 1.1"></a>
   <a href="https://github.com/NexwestLedgerCoreCompanyLimited"><img src="https://img.shields.io/badge/Made%20by-Nai%20Natthawut-2230e3" alt="Made by Nai Natthawut"></a>
 </p>
@@ -17,7 +17,7 @@
 
 <p align="center"><img src="docs/images/tour.gif" alt="A tour of MineOffice: Command Center, Task Board, Review, Team and AI Settings" width="860"></p>
 
-> **Status: 0.2.0, early release.** See [What has been tested](#what-has-been-tested) before relying on it. It has not yet been run on a vanilla or Paper server or with a live AI provider.
+> **Status: 0.2.1, early release.** See [What has been tested](#what-has-been-tested) before relying on it. It has not yet been run on a vanilla or Paper server or with a live AI provider.
 
 ## See it in action
 
@@ -66,7 +66,7 @@ Tell the team what you want, follow the work on the board, and review the result
 **Headless, on any machine with Node.js 22 or newer:**
 
 ```bash
-npm install -g https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/releases/download/v0.2.0/mineoffice-agent-0.2.0.tgz
+npm install -g https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/releases/latest/download/mineoffice-agent.tgz
 ```
 
 ```bash
@@ -77,7 +77,16 @@ mineoffice-agent init
 mineoffice-agent serve --host localhost:25565 --spawn --commander YourName
 ```
 
-**Desktop app:** download the installer for Windows, macOS or Linux from the [Releases](../../releases) page. Builds are not code-signed yet, so Windows and macOS will warn you the first time.
+**Desktop app:**
+
+| System | Download | Updates |
+| :--- | :--- | :--- |
+| Windows | [MineOffice-win-x64.exe](https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/releases/latest/download/MineOffice-win-x64.exe) | By itself |
+| macOS (Apple Silicon) | [MineOffice-mac-arm64.dmg](https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/releases/latest/download/MineOffice-mac-arm64.dmg) | The app tells you, and you download it |
+| Linux | [AppImage](https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/releases/latest/download/MineOffice-linux-x86_64.AppImage) | By itself |
+| Debian, Ubuntu | [.deb](https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/releases/latest/download/MineOffice-linux-amd64.deb) | The app tells you, and you download it |
+
+When a new version is ready, press **Restart to update** at the bottom of the sidebar. Builds are not code-signed yet, so Windows and macOS will warn you the first time. These links always give the newest version.
 
 **Docker:**
 
@@ -351,6 +360,7 @@ A plain Minecraft server has no idea an AI team exists, so the owner has to run 
 | What is sent to all five kinds of AI service, images included | The exact requests were checked against each service's documentation on 2026-11-05, and OpenRouter's model list was read live. No service has answered with a real key yet |
 | Office, marketing and creative departments, up to an SVG merged into a project | Real Git and scripted AI replies |
 | Everyone in one world at once | 23 real bots on flying-squid, Minecraft 1.21.4, checked by hand. The team has been 30 since 0.2.0, and that size has not been tried in one world |
+| The packaged macOS app opens, shows the team and finds a new release | The real app, read through its own window, by hand |
 | MCP client, local and remote | Real child processes and a real HTTP server |
 | Code tasks | Real Git, including hostile AI output |
 | CLI, MCP server, status page, security rules | The built CLI, with stand-in Minecraft and AI servers |
@@ -363,7 +373,8 @@ A plain Minecraft server has no idea an AI team exists, so the owner has to run 
 | Reflexes (water bucket, shield, totem) | Not exercised at all |
 | Vanilla, Paper and large public servers | |
 | Live AI providers | All AI replies so far were scripted, so how good a real project turns out is still unknown |
-| Mac and Linux desktop builds | Set up in CI, not built yet |
+| Installers on Windows and Linux | Built in CI. Only the macOS app has been opened for real |
+| Updating in place on Windows and the AppImage | Needs two published versions, so it has not happened yet |
 | Microsoft sign-in, all the way through | |
 | The native folder picker, Docker, systemd and HTTPS | |
 
@@ -418,7 +429,7 @@ MineOffice is licensed by NEXWEST LEDGER CORE COMPANY LIMITED under the [Busines
 | Change anything, and build on it | Pay-to-download, bundle or resell it |
 | Share it for free under the same license | |
 
-**Each version becomes Apache License 2.0 four years after it is released.** For version 0.2.0 that happens on 2030-11-05. From then on, that version has no selling restriction.
+**Each version becomes Apache License 2.0 four years after it is released.** For version 0.2.1 that happens on 2030-11-05. From then on, that version has no selling restriction.
 
 Read [LICENSE](LICENSE) for the exact terms. This summary is a guide, and the license text is what counts. See [NOTICE.md](NOTICE.md) for the projects this one learned from and the art it includes.
 

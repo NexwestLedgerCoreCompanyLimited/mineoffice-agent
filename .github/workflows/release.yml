@@ -55,6 +55,8 @@ jobs:
             release/*.zip
             release/*.AppImage
             release/*.deb
+            release/*.blockmap
+            release/latest*.yml
 
   release:
     needs: desktop
@@ -70,6 +72,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm pack
+      # A name that never changes, so the install command always gets the newest
+      - run: mv mineoffice-agent-*.tgz mineoffice-agent.tgz
       - uses: actions/download-artifact@v4
         with:
           path: artifacts
@@ -78,10 +82,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           prerelease=""
-          case "$GITHUB_REF_NAME" in v0.*|*-*) prerelease="--prerelease" ;; esac
+          case "$GITHUB_REF_NAME" in *-*) prerelease="--prerelease" ;; esac
           # The notes are this version's section of the changelog
           awk -v heading="## ${GITHUB_REF_NAME#v}" '$0 == heading { found = 1; next } found && /^## / { exit } found' CHANGELOG.md > notes.md
-          gh release create "$GITHUB_REF_NAME" --notes-file notes.md $prerelease mineoffice-agent-*.tgz artifacts/*/*
+          gh release create "$GITHUB_REF_NAME" --notes-file notes.md $prerelease mineoffice-agent.tgz artifacts/*/*
 
   npm:
     needs: release

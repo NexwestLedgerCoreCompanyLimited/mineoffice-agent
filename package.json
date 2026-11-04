@@ -1,6 +1,6 @@
 {
   "name": "mineoffice-agent",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "description": "An AI team for Minecraft, your code and your business: 30 agents across engineering, marketing, content, graphics and admin, a desktop app, Linux server mode, MCP client and server, and a shareable status page",
   "license": "BUSL-1.1",
@@ -40,6 +40,7 @@
     "dist:desktop": "npm run build && electron-builder --publish never"
   },
   "dependencies": {
+    "electron-updater": "6.8.11",
     "minecraft-protocol": "^1.68.0",
     "mineflayer": "^4.23.0",
     "mineflayer-pathfinder": "^2.4.5",
@@ -95,7 +96,12 @@
     "directories": {
       "output": "release"
     },
-    "artifactName": "MineOffice-${version}-${os}-${arch}.${ext}",
+    "artifactName": "MineOffice-${os}-${arch}.${ext}",
+    "publish": {
+      "provider": "github",
+      "owner": "NexwestLedgerCoreCompanyLimited",
+      "repo": "mineoffice-agent"
+    },
     "npmRebuild": false,
     "win": {
       "target": [

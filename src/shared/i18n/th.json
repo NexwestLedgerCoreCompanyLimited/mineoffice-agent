@@ -543,5 +543,8 @@
   "chart.department.admin": "แอดมินและดูแลลูกค้า",
   "chart.department.marketing": "การตลาดและคอนเทนต์",
   "chart.department.creative": "ครีเอทีฟ",
-  "goal.sample.project3": "วางแผนโพสต์เฟซบุ๊กของร้านกาแฟ 1 เดือน และวาดโลโก้ให้ด้วย"
+  "goal.sample.project3": "วางแผนโพสต์เฟซบุ๊กของร้านกาแฟ 1 เดือน และวาดโลโก้ให้ด้วย",
+  "update.restart": "รีสตาร์ทเพื่ออัปเดตเป็น {version}",
+  "update.download": "ดาวน์โหลดเวอร์ชัน {version}",
+  "update.downloading": "กำลังโหลดเวอร์ชัน {version}: {percent}%"
 }

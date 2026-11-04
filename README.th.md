@@ -4,11 +4,11 @@
 
 <p align="center">ทีม AI ที่ทำงานในโลก Minecraft ในโค้ด และในธุรกิจของคุณ<br>สั่งงานเป้าหมายเดียว แล้วทีม 30 คนจะแบ่งงานกันเอง</p>
 
-<p align="center"><b><a href="../../releases">⬇ ดาวน์โหลดสำหรับ Windows, macOS หรือ Linux</a></b></p>
+<p align="center"><b><a href="../../releases/latest">⬇ ดาวน์โหลดสำหรับ Windows, macOS หรือ Linux</a></b></p>
 
 <p align="center">
   <a href="https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/actions/workflows/ci.yml"><img src="https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="../../releases"><img src="https://img.shields.io/github/v/release/NexwestLedgerCoreCompanyLimited/mineoffice-agent?include_prereleases&sort=semver&label=Release" alt="เวอร์ชันล่าสุด"></a>
+  <a href="../../releases/latest"><img src="https://img.shields.io/github/v/release/NexwestLedgerCoreCompanyLimited/mineoffice-agent?sort=semver&label=Release" alt="เวอร์ชันล่าสุด"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-BSL%201.1-amber.svg" alt="ใบอนุญาต BSL 1.1"></a>
   <a href="https://github.com/NexwestLedgerCoreCompanyLimited"><img src="https://img.shields.io/badge/Made%20by-Nai%20Natthawut-2230e3" alt="สร้างโดย Nai Natthawut"></a>
 </p>
@@ -17,7 +17,7 @@
 
 <p align="center"><img src="docs/images/screens/org-chart-th.png" alt="ผังทีมของ MineOffice ทั้ง 9 แผนก เป็นภาษาไทย" width="720"></p>
 
-> **สถานะ: 0.2.0 รุ่นทดลองใช้** ทดสอบกับเซิร์ฟเวอร์จำลองแล้ว แต่ยังไม่ได้ทดสอบกับเซิร์ฟ Vanilla หรือ Paper ตัวจริง และยังไม่ได้ทดสอบกับ AI จริงด้วย API key รายละเอียดอยู่ใน[หัวข้อ What has been tested](README.md#what-has-been-tested)
+> **สถานะ: 0.2.1 รุ่นทดลองใช้** ทดสอบกับเซิร์ฟเวอร์จำลองแล้ว แต่ยังไม่ได้ทดสอบกับเซิร์ฟ Vanilla หรือ Paper ตัวจริง และยังไม่ได้ทดสอบกับ AI จริงด้วย API key รายละเอียดอยู่ใน[หัวข้อ What has been tested](README.md#what-has-been-tested)
 
 ## ทำอะไรได้บ้าง
 
@@ -44,11 +44,19 @@
 
 ## ดาวน์โหลด
 
-- **แอปเดสก์ท็อป:** โหลดตัวติดตั้ง Windows, macOS (Apple Silicon) หรือ Linux จาก[หน้า Releases](../../releases) ตัวติดตั้งยังไม่ได้เซ็นชื่อ Windows และ macOS จึงจะเตือนตอนเปิดครั้งแรก
+| ระบบ | ดาวน์โหลด | การอัปเดต |
+| :--- | :--- | :--- |
+| Windows | [MineOffice-win-x64.exe](https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/releases/latest/download/MineOffice-win-x64.exe) | อัปเดตเอง |
+| macOS (Apple Silicon) | [MineOffice-mac-arm64.dmg](https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/releases/latest/download/MineOffice-mac-arm64.dmg) | แอปแจ้งเตือน แล้วคุณโหลดเอง |
+| Linux | [AppImage](https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/releases/latest/download/MineOffice-linux-x86_64.AppImage) | อัปเดตเอง |
+| Debian, Ubuntu | [.deb](https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/releases/latest/download/MineOffice-linux-amd64.deb) | แอปแจ้งเตือน แล้วคุณโหลดเอง |
+
+ลิงก์เหล่านี้จะได้เวอร์ชันล่าสุดเสมอ เมื่อเวอร์ชันใหม่พร้อม ให้กด "รีสตาร์ทเพื่ออัปเดต" ที่ด้านล่างของแถบเมนู ตัวติดตั้งยังไม่ได้เซ็นชื่อ Windows และ macOS จึงจะเตือนตอนเปิดครั้งแรก
+
 - **เซิร์ฟเวอร์ Linux ไม่มีหน้าจอ:** ต้องใช้ Node.js 22 ขึ้นไป
 
 ```bash
-npm install -g https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/releases/download/v0.2.0/mineoffice-agent-0.2.0.tgz
+npm install -g https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/releases/latest/download/mineoffice-agent.tgz
 ```
 
 ## เริ่มใช้งานครั้งแรก
@@ -82,7 +90,7 @@ npm test
 
 MineOffice ไม่ใช่ผลิตภัณฑ์ทางการของ Minecraft และไม่เกี่ยวข้องกับ Mojang หรือ Microsoft
 
-ใช้[ใบอนุญาต Business Source License 1.1](LICENSE) โดย NEXWEST LEDGER CORE COMPANY LIMITED ใช้งาน ดัดแปลง และหารายได้จากการใช้งานได้ฟรี แต่ห้ามขายตัวโปรแกรม แต่ละเวอร์ชันจะเปลี่ยนเป็น Apache License 2.0 เมื่อครบ 4 ปี เวอร์ชัน 0.2.0 คือวันที่ 5 พฤศจิกายน 2030 ข้อความนี้เป็นเพียงสรุป ข้อความใน LICENSE เป็นตัวตัดสิน
+ใช้[ใบอนุญาต Business Source License 1.1](LICENSE) โดย NEXWEST LEDGER CORE COMPANY LIMITED ใช้งาน ดัดแปลง และหารายได้จากการใช้งานได้ฟรี แต่ห้ามขายตัวโปรแกรม แต่ละเวอร์ชันจะเปลี่ยนเป็น Apache License 2.0 เมื่อครบ 4 ปี เวอร์ชัน 0.2.1 คือวันที่ 5 พฤศจิกายน 2030 ข้อความนี้เป็นเพียงสรุป ข้อความใน LICENSE เป็นตัวตัดสิน
 
 ## ผู้สร้าง
 

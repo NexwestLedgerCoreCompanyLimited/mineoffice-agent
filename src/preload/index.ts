@@ -34,6 +34,8 @@ export const electronAPI = {
   pickWorkspace: () => ipcRenderer.invoke('pick-workspace'),
   createProject: () => ipcRenderer.invoke('create-project'),
   enableGit: (workspace: string) => ipcRenderer.invoke('enable-git', workspace),
+  installUpdate: () => ipcRenderer.invoke('install-update'),
+  openReleases: () => ipcRenderer.invoke('open-releases'),
   onStateUpdate: (callback: (state: any) => void) => {
     const subscription = (_event: any, state: any) => callback(state);
     ipcRenderer.on('state-update', subscription);

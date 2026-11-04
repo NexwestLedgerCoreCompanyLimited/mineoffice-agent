@@ -2,6 +2,12 @@
 
 Significant choices, why we made them, and what we turned down. Newest first.
 
+## 2026-11-05 · App updates with electron-updater, and download links that never change
+
+- **Decision:** the same library as NeledPort. Windows and the AppImage update themselves. macOS and .deb show that a new version exists and open the download page. Installer names carry no version, so `releases/latest/download/...` always works, and every release is marked Latest.
+- **Why:** an unsigned Mac app cannot replace itself, and a .deb needs root. The main process is ES modules, so the library loads late inside `try`, and a problem with updates cannot stop the app from opening.
+- **Turned down:** writing our own updater, because download checks and installer hand-off are easy to get wrong.
+
 ## 2026-11-05 · Business Source License 1.1, licensed by the company
 
 - **Decision:** MineOffice uses BSL 1.1, held by NEXWEST LEDGER CORE COMPANY LIMITED. Anyone may use it, change it and earn money with it, but may not sell it. Each version becomes Apache-2.0 four years after release.

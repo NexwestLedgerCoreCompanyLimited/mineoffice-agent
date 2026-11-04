@@ -15,6 +15,7 @@ import { pingServer } from './core/bot/mineflayerSwarm';
 import { createNewProject, enableGit, inspectWorkspace } from './core/git/workspace';
 import { t } from '@shared/i18n';
 import { validateImages } from './core/agent/images';
+import { installUpdate, RELEASES_URL, startUpdates, updateState } from './updater';
 import { AgentRole, AppSettings, LLMProvider, MinecraftSettings, ServerTarget, ViewerSettings, ImageAttachment } from '@shared/types';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -121,7 +122,8 @@ function getFullState() {
     minecraftBots: orchestrator.swarm.getBotStates(),
     skills: orchestrator.skills.getAllSkills(),
     events: orchestrator.getPublicEvents(),
-    mcpStatuses: orchestrator.mcp.getStatuses()
+    mcpStatuses: orchestrator.mcp.getStatuses(),
+    update: updateState()
   };
 }
 
@@ -273,6 +275,10 @@ ipcMain.handle('watch-server', (_event, address: string, key?: string) => watchS
 
 ipcMain.handle('get-viewer-state', () => viewerState());
 
+ipcMain.handle('install-update', () => installUpdate());
+
+ipcMain.handle('open-releases', () => shell.openExternal(RELEASES_URL));
+
 ipcMain.handle('inspect-workspace', (_event, workspace: string) => inspectWorkspace(workspace, APP_ROOT));
 
 ipcMain.handle('pick-workspace', async () => {
@@ -307,6 +313,7 @@ app.whenReady().then(async () => {
 
   await controlServer.start().catch(err => console.error('[Main] Control server failed to start:', err));
   await syncViewer();
+  void startUpdates(scheduleStateSend);
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();

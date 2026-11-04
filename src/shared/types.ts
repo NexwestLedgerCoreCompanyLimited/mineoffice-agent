@@ -30,6 +30,12 @@ export type AgentRole =
 
 export type TaskCategory = 'code' | 'minecraft' | 'research';
 
+export type UpdateState =
+  | { status: 'none' }
+  | { status: 'available'; version: string } // you download it yourself
+  | { status: 'downloading'; version: string; percent: number }
+  | { status: 'ready'; version: string };
+
 /** What a goal is for. A project is many kinds of work, so its tasks each pick their own category. */
 export type PlanMode = TaskCategory | 'project';
 

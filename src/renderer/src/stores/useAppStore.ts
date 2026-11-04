@@ -16,6 +16,7 @@ import {
   PublicEventKind,
   ServerTarget,
   ServerTestResult,
+  UpdateState,
   VoyagerSkill
 } from '@shared/types';
 import { createDefaultMinecraftSettings } from '@shared/minecraft';
@@ -41,6 +42,7 @@ interface AppState {
   minecraftBots: BotRuntimeState[];
   events: FeedEvent[];
   mcpStatuses: McpServerStatus[];
+  update: UpdateState;
   selectedAgentId: string;
   reviewDecisionId: string | null;
   page: AppPage;
@@ -86,7 +88,8 @@ const applyState = (data: any) => ({
   minecraftBots: data.minecraftBots || [],
   skills: data.skills || [],
   events: data.events || [],
-  mcpStatuses: data.mcpStatuses || []
+  mcpStatuses: data.mcpStatuses || [],
+  update: data.update || { status: 'none' }
 });
 
 export const useAppStore = create<AppState>((set, get) => ({
@@ -99,6 +102,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   minecraftBots: [],
   events: [],
   mcpStatuses: [],
+  update: { status: 'none' },
   selectedAgentId: 'wren',
   reviewDecisionId: null,
   page: 'home',

@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.2.1
+
+### เพิ่มอะไรบ้าง
+
+- อัปเดตในตัวแอป: Windows และ AppImage โหลดเวอร์ชันใหม่เอง แล้วกดรีสตาร์ทเพื่ออัปเดต ส่วน macOS และ .deb แอปจะแจ้งเตือนให้ไปโหลด
+- ลิงก์ดาวน์โหลดตรงที่ได้เวอร์ชันล่าสุดเสมอ
+- README ภาษาไทย ภาพตัวอย่างการใช้งาน และหน้าผู้สร้าง
+
+### แก้ไขอะไรบ้าง
+
+- Release ตั้งเป็น Latest แล้ว ไม่ใช่ Pre-release
+
+### Added
+
+- Updates inside the app. Windows and the AppImage download a new version and offer Restart to update. macOS and .deb tell you to download it
+- Download links that always give the newest version
+- A Thai README, screenshots of the app, and who made it
+
+### Fixed
+
+- Releases are now marked Latest instead of Pre-release
+
+### Not tested yet
+
+- Live AI services with a real key, and all 30 characters in one world at once
+- A real update on Windows or the AppImage, which needs two published versions
+
 ## 0.2.0
 
 ### เพิ่มอะไรบ้าง

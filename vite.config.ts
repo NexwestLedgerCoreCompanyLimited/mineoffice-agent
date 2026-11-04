@@ -40,6 +40,7 @@ export default defineConfig({
               },
               external: [
                 'electron',
+                'electron-updater',
                 'mineflayer',
                 'minecraft-protocol',
                 'mineflayer-pathfinder',

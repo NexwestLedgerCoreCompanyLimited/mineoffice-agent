@@ -106,6 +106,12 @@ function testRoster() {
   check('the license allows earning and forbids selling', /^Additional Use Grant:[\s\S]*to earn money[\s\S]*do not Sell the Licensed Work/m.test(license));
   check('the license becomes Apache 2.0', /^Change License: +Apache License, Version 2\.0$/m.test(license) && /^Change Date: +\d{4}-\d{2}-\d{2}$/m.test(license));
   check('the license names this version', license.split(/\r?\n/).some(line => /^Licensed Work: +MineOffice Agent /.test(line) && line.endsWith(` ${pkg.version}`)), pkg.version);
+  // The app runs index.cjs, and index.ts only gives the renderer its types, so they must not drift apart
+  const preloadMethods = (file: string) => [...fs.readFileSync(path.join(ROOT, 'src/preload', file), 'utf8').matchAll(/^  (\w+): /gm)].map(match => match[1]).sort().join();
+  check('both preload files offer the same methods', preloadMethods('index.cjs') === preloadMethods('index.ts'), `${preloadMethods('index.cjs')} | ${preloadMethods('index.ts')}`);
+  check('releases can update the app', pkg.build.publish?.provider === 'github' && pkg.build.publish?.repo === 'mineoffice-agent');
+  check('installer names never change, so download links keep working', !pkg.build.artifactName.includes('version'));
+  check('the update library is shipped and not bundled', !!pkg.dependencies['electron-updater'] && fs.readFileSync(path.join(ROOT, 'vite.config.ts'), 'utf8').includes("'electron-updater'"));
   check('the package points at it', pkg.license === 'BUSL-1.1' && pkg.files.includes('NOTICE.md'));
 }
 
