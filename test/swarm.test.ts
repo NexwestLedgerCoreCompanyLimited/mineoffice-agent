@@ -105,7 +105,7 @@ function testRoster() {
   const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
   check('the license allows earning and forbids selling', /^Additional Use Grant:[\s\S]*to earn money[\s\S]*do not Sell the Licensed Work/m.test(license));
   check('the license becomes Apache 2.0', /^Change License: +Apache License, Version 2\.0$/m.test(license) && /^Change Date: +\d{4}-\d{2}-\d{2}$/m.test(license));
-  check('the license names this version', license.includes(`MineOffice Agent ${pkg.version}\n`), pkg.version);
+  check('the license names this version', license.split(/\r?\n/).some(line => /^Licensed Work: +MineOffice Agent /.test(line) && line.endsWith(` ${pkg.version}`)), pkg.version);
   check('the package points at it', pkg.license === 'BUSL-1.1' && pkg.files.includes('NOTICE.md'));
 }
 

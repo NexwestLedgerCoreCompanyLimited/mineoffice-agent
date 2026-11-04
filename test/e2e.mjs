@@ -2,6 +2,7 @@
 import { spawn, execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import http from 'node:http';
+import net from 'node:net';
 import os from 'node:os';
 import path from 'node:path';
 import { createRequire } from 'node:module';
@@ -124,8 +125,16 @@ try {
 
   console.log('\n== control server');
   const control = JSON.parse(fs.readFileSync(path.join(HOME, 'control.json'), 'utf8'));
-  const listening = execFileSync('powershell', ['-NoProfile', '-Command', `(Get-NetTCPConnection -State Listen -LocalPort ${control.port}).LocalAddress`], { encoding: 'utf8' }).trim();
-  check('control port listens on loopback only', listening === '127.0.0.1', listening);
+  const answers = host => new Promise(resolve => {
+    const socket = net.connect({ host, port: control.port, timeout: 2000 });
+    const finish = connected => { socket.destroy(); resolve(connected); };
+    socket.once('connect', () => finish(true));
+    socket.once('error', () => finish(false));
+    socket.once('timeout', () => finish(false));
+  });
+  const ownAddress = Object.values(os.networkInterfaces()).flat().find(item => item.family === 'IPv4' && !item.internal)?.address;
+  check('control port answers on loopback', await answers('127.0.0.1'));
+  check('control port does not answer on the network', !!ownAddress && !(await answers(ownAddress)), ownAddress);
   check('no token: rejected', (await rawRequest(control.port, {})) === 401);
   check('wrong token: rejected', (await rawRequest(control.port, { token: 'nope' })) === 401);
   check('right token: accepted', (await rawRequest(control.port, { token: control.token })) === 200);
