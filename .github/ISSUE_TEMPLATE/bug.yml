@@ -1,0 +1,43 @@
+name: Bug report
+description: Something in MineOffice is broken
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: MineOffice version
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options: [Windows, macOS, Linux, Docker, Other]
+    validations:
+      required: true
+  - type: input
+    id: ai
+    attributes:
+      label: AI service and model
+  - type: input
+    id: server
+    attributes:
+      label: Minecraft server and version (if any)
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log lines
+      description: Remove API keys, passwords and IP addresses before pasting.
+      render: text

@@ -4,11 +4,16 @@
 
 <p align="center">An AI team that works in your Minecraft world, in your code and on your business.<br>Run it as a desktop app, as a headless Linux service, or as a tool another AI can control over MCP.</p>
 
+<p align="center"><b><a href="../../releases">⬇ Download for Windows, macOS or Linux</a></b> · <a href="#install">Linux server without a screen</a></p>
+
 <p align="center">
-  <a href="../../releases/latest"><img src="https://img.shields.io/github/v/release/NexwestLedgerCoreCompanyLimited/mineoffice-agent?include_prereleases&label=Download" alt="Latest release"></a>
+  <a href="https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/actions/workflows/ci.yml"><img src="https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="../../releases"><img src="https://img.shields.io/github/v/release/NexwestLedgerCoreCompanyLimited/mineoffice-agent?include_prereleases&sort=semver&label=Release" alt="Latest release"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-BSL%201.1-amber.svg" alt="License: BSL 1.1"></a>
   <a href="https://github.com/NexwestLedgerCoreCompanyLimited"><img src="https://img.shields.io/badge/Made%20by-Nai%20Natthawut-2230e3" alt="Made by Nai Natthawut"></a>
 </p>
+
+<p align="center">English · <a href="README.th.md">ภาษาไทย</a></p>
 
 <p align="center"><img src="docs/images/tour.gif" alt="A tour of MineOffice: Command Center, Task Board, Review, Team and AI Settings" width="860"></p>
 
@@ -20,17 +25,17 @@ Tell the team what you want, follow the work on the board, and review the result
 
 | Give the team a goal | Follow the work |
 | :--- | :--- |
-| ![Command Center with a goal typed in, the team chart and recent activity](docs/images/command-center.png) | ![Task Board with work to do, in progress, waiting for review and done](docs/images/task-board.png) |
+| ![Command Center with a goal typed in, the team chart and recent activity](docs/images/screens/command-center.png) | ![Task Board with work to do, in progress, waiting for review and done](docs/images/screens/task-board.png) |
 | **Command Center.** Describe a goal in plain words. Marlow, the Commander, splits it up for each role. | **Task Board.** See who owns each task and what is waiting for you. |
 
 | Review before it lands | Choose who does what |
 | :--- | :--- |
-| ![Review page showing the real changes to a logo file, with approve and send back buttons](docs/images/review.png) | ![Team page with each member, their role and the logo of the AI they use](docs/images/team.png) |
+| ![Review page showing the real changes to a logo file, with approve and send back buttons](docs/images/screens/review.png) | ![Team page with each member, their role and the logo of the AI they use](docs/images/screens/team.png) |
 | **Review.** Read the real change on its own branch, then approve it or send it back. | **Team and roles.** Change anyone's role. The logo beside each name shows which AI they use. |
 
 | Pick your AI | The whole company, in Thai or English |
 | :--- | :--- |
-| ![AI Settings with OpenRouter, Google Gemini and Anthropic Claude, each with a key and a model name](docs/images/ai-settings.png) | ![The Thai team chart with all nine departments](docs/images/org-chart-th.png) |
+| ![AI Settings with OpenRouter, Google Gemini and Anthropic Claude, each with a key and a model name](docs/images/screens/ai-settings.png) | ![The Thai team chart with all nine departments](docs/images/screens/org-chart-th.png) |
 | **AI Settings.** Use OpenRouter, Gemini, Claude, OpenAI or Ollama, with any model name. | **Team chart.** 30 members in nine departments. |
 
 ### Your first goal
@@ -396,7 +401,13 @@ The first builds and runs every check. The second packages the desktop app for y
 | `src/shared` | Types, roles and translations |
 | `test` | Everything `npm test` runs |
 
+## Project docs
+
+- [Contributing](CONTRIBUTING.md) · [Code of conduct](CODE_OF_CONDUCT.md) · [Security](SECURITY.md) · [Decisions](DECISIONS.md) · [Changelog](CHANGELOG.md)
+
 ## License
+
+MineOffice is not an official Minecraft product and is not approved by or associated with Mojang or Microsoft.
 
 MineOffice is licensed by NEXWEST LEDGER CORE COMPANY LIMITED under the [Business Source License 1.1](LICENSE). It is free to use and the source is public, but until the change date it is source-available, not open source.
 
