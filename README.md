@@ -1,10 +1,45 @@
-# MineOffice Agent
+<p align="center"><img src="docs/images/logo.png" alt="MineOffice logo" width="112"></p>
 
-An AI team that works in your Minecraft world, in your code and on your business. Run it as a desktop app, as a headless Linux service, or as a tool another AI can control over MCP.
+<h1 align="center">MineOffice Agent</h1>
 
-[![License: BSL 1.1](https://img.shields.io/badge/License-BSL%201.1-amber.svg)](LICENSE)
+<p align="center">An AI team that works in your Minecraft world, in your code and on your business.<br>Run it as a desktop app, as a headless Linux service, or as a tool another AI can control over MCP.</p>
+
+<p align="center">
+  <a href="../../releases/latest"><img src="https://img.shields.io/github/v/release/NexwestLedgerCoreCompanyLimited/mineoffice-agent?include_prereleases&label=Download" alt="Latest release"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-BSL%201.1-amber.svg" alt="License: BSL 1.1"></a>
+  <a href="https://github.com/NexwestLedgerCoreCompanyLimited"><img src="https://img.shields.io/badge/Made%20by-Nai%20Natthawut-2230e3" alt="Made by Nai Natthawut"></a>
+</p>
+
+<p align="center"><img src="docs/images/tour.gif" alt="A tour of MineOffice: Command Center, Task Board, Review, Team and AI Settings" width="860"></p>
 
 > **Status: 0.2.0, early release.** See [What has been tested](#what-has-been-tested) before relying on it. It has not yet been run on a vanilla or Paper server or with a live AI provider.
+
+## See it in action
+
+Tell the team what you want, follow the work on the board, and review the result before anything changes. The pictures below show the real app with example data.
+
+| Give the team a goal | Follow the work |
+| :--- | :--- |
+| ![Command Center with a goal typed in, the team chart and recent activity](docs/images/command-center.png) | ![Task Board with work to do, in progress, waiting for review and done](docs/images/task-board.png) |
+| **Command Center.** Describe a goal in plain words. Marlow, the Commander, splits it up for each role. | **Task Board.** See who owns each task and what is waiting for you. |
+
+| Review before it lands | Choose who does what |
+| :--- | :--- |
+| ![Review page showing the real changes to a logo file, with approve and send back buttons](docs/images/review.png) | ![Team page with each member, their role and the logo of the AI they use](docs/images/team.png) |
+| **Review.** Read the real change on its own branch, then approve it or send it back. | **Team and roles.** Change anyone's role. The logo beside each name shows which AI they use. |
+
+| Pick your AI | The whole company, in Thai or English |
+| :--- | :--- |
+| ![AI Settings with OpenRouter, Google Gemini and Anthropic Claude, each with a key and a model name](docs/images/ai-settings.png) | ![The Thai team chart with all nine departments](docs/images/org-chart-th.png) |
+| **AI Settings.** Use OpenRouter, Gemini, Claude, OpenAI or Ollama, with any model name. | **Team chart.** 30 members in nine departments. |
+
+### Your first goal
+
+1. Start your Minecraft server, if you want the team in the game. MineOffice joins a running server and does not start one for you.
+2. Open MineOffice and add an AI key in **AI Settings**. OpenRouter has free models.
+3. On **Server**, enter the address, test it and bring the team in.
+4. On **Command Center**, pick a kind of work, describe your goal and send it.
+5. Check the plan, start it, and review the result on **Task Board**.
 
 ## What it does
 
@@ -363,7 +398,7 @@ The first builds and runs every check. The second packages the desktop app for y
 
 ## License
 
-MineOffice uses the [Business Source License 1.1](LICENSE). It is free to use and the source is public, but until the change date it is source-available, not open source.
+MineOffice is licensed by NEXWEST LEDGER CORE COMPANY LIMITED under the [Business Source License 1.1](LICENSE). It is free to use and the source is public, but until the change date it is source-available, not open source.
 
 | You may | You may not |
 | :--- | :--- |
@@ -375,3 +410,11 @@ MineOffice uses the [Business Source License 1.1](LICENSE). It is free to use an
 **Each version becomes Apache License 2.0 four years after it is released.** For version 0.2.0 that happens on 2030-11-05. From then on, that version has no selling restriction.
 
 Read [LICENSE](LICENSE) for the exact terms. This summary is a guide, and the license text is what counts. See [NOTICE.md](NOTICE.md) for the projects this one learned from and the art it includes.
+
+## Made by
+
+<a href="https://github.com/NexwestLedgerCoreCompanyLimited"><img src="https://github.com/NexwestLedgerCoreCompanyLimited.png" alt="" width="72" align="left" style="margin-right:12px"></a>
+
+**[Nai Natthawut](https://github.com/NexwestLedgerCoreCompanyLimited)**, founder of [NEXWEST LEDGER CORE](https://nexwest.co.th). Built in Thailand, with Claude as a coding assistant.
+
+<br clear="left">

@@ -5,8 +5,8 @@
   "description": "An AI team for Minecraft, your code and your business: 30 agents across engineering, marketing, content, graphics and admin, a desktop app, Linux server mode, MCP client and server, and a shareable status page",
   "license": "BUSL-1.1",
   "author": {
-    "name": "MineOffice Agent Contributors",
-    "email": "noreply@mineoffice.invalid"
+    "name": "Nai Natthawut",
+    "url": "https://github.com/NexwestLedgerCoreCompanyLimited"
   },
   "homepage": "https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent",
   "repository": {
@@ -122,7 +122,7 @@
       ],
       "icon": "public/assets/icons/logo.png",
       "category": "Development",
-      "maintainer": "MineOffice Agent Contributors <noreply@mineoffice.invalid>"
+      "maintainer": "Nai Natthawut <283197608+NexwestLedgerCoreCompanyLimited@users.noreply.github.com>"
     }
   }
 }
