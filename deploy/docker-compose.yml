@@ -1,0 +1,31 @@
+# Run next to a Minecraft server on the same Linux machine:
+#   cp deploy/mineoffice.env.example deploy/mineoffice.env   (then fill it in and chmod 600 it)
+#   docker compose -f deploy/docker-compose.yml up -d --build
+services:
+  mineoffice:
+    build: ..
+    restart: unless-stopped
+    command:
+      - serve
+      - --host
+      - host.docker.internal:25565
+      - --spawn
+      - --viewer
+    env_file: mineoffice.env
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    ports:
+      - "8787:8787"
+    volumes:
+      - mineoffice-data:/data
+    # Bots talk to servers full of strangers, so the container gets as little as possible
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  mineoffice-data:

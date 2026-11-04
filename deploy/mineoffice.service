@@ -1,0 +1,44 @@
+# Runs MineOffice as a locked-down background service on a Linux Minecraft server.
+#
+#   sudo useradd --system --create-home --home-dir /var/lib/mineoffice mineoffice
+#   sudo npm install --global mineoffice-agent
+#   sudo install -d -m 750 /etc/mineoffice
+#   sudo install -m 600 deploy/mineoffice.env.example /etc/mineoffice/mineoffice.env   (then fill it in)
+#   sudo cp deploy/mineoffice.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now mineoffice
+#   sudo -u mineoffice MINEOFFICE_HOME=/var/lib/mineoffice mineoffice-agent viewer-key
+
+[Unit]
+Description=MineOffice Agent
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=mineoffice
+Group=mineoffice
+Environment=MINEOFFICE_HOME=/var/lib/mineoffice
+Environment=NODE_ENV=production
+EnvironmentFile=/etc/mineoffice/mineoffice.env
+WorkingDirectory=/var/lib/mineoffice
+ExecStart=/usr/bin/env mineoffice-agent serve --host localhost:25565 --spawn --viewer
+Restart=on-failure
+RestartSec=10
+
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/mineoffice
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+LockPersonality=true
+CapabilityBoundingSet=
+SystemCallArchitectures=native
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

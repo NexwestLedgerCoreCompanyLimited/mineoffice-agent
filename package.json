@@ -1,0 +1,124 @@
+{
+  "name": "mineoffice-agent",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "An AI team for Minecraft and your code: a whole software company of agents, a desktop app, Linux server mode, MCP client and server, and a shareable status page",
+  "license": "SEE LICENSE IN LICENSE",
+  "author": {
+    "name": "MineOffice Agent Contributors",
+    "email": "noreply@mineoffice.invalid"
+  },
+  "homepage": "https://www.npmjs.com/package/mineoffice-agent",
+  "main": "dist-electron/main/index.mjs",
+  "bin": {
+    "mineoffice-agent": "dist-cli/cli.mjs"
+  },
+  "files": [
+    "dist-cli",
+    "deploy",
+    "README.md",
+    "LICENSE",
+    "NOTICE.md",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build && npm run build:cli",
+    "build:cli": "vite build --config vite.cli.config.ts",
+    "prepack": "npm run build:cli",
+    "preview": "vite preview",
+    "check:i18n": "node scripts/check-translations.mjs",
+    "test": "npm run build:cli && node scripts/run-tests.mjs",
+    "test:unit": "node scripts/run-tests.mjs unit",
+    "dist:desktop": "npm run build && electron-builder --publish never"
+  },
+  "dependencies": {
+    "minecraft-protocol": "^1.68.0",
+    "mineflayer": "^4.23.0",
+    "mineflayer-pathfinder": "^2.4.5",
+    "vec3": "^0.1.10"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@types/ws": "^8.5.14",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "clsx": "^2.1.1",
+    "dotenv": "^16.4.7",
+    "electron": "^34.2.0",
+    "electron-builder": "^26.18.0",
+    "esbuild": "^0.28.2",
+    "flying-squid": "^1.12.0",
+    "lucide-react": "^1.16.0",
+    "postcss": "^8.5.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "rimraf": "^6.0.1",
+    "tailwind-merge": "^3.0.1",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0",
+    "vite-plugin-electron": "^0.29.0",
+    "vite-plugin-electron-renderer": "^0.14.6",
+    "ws": "^8.18.0",
+    "zod": "^3.24.2",
+    "zustand": "^5.0.3"
+  },
+  "keywords": [
+    "minecraft",
+    "mineflayer",
+    "ai",
+    "agents",
+    "mcp",
+    "model-context-protocol",
+    "bot",
+    "electron"
+  ],
+  "build": {
+    "appId": "dev.mineoffice.agent",
+    "productName": "MineOffice",
+    "files": [
+      "dist/**/*",
+      "dist-electron/main/index.mjs",
+      "dist-electron/preload/index.cjs",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "artifactName": "MineOffice-${version}-${os}-${arch}.${ext}",
+    "npmRebuild": false,
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "public/assets/icons/logo.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "icon": "public/assets/icons/logo.png",
+      "category": "public.app-category.developer-tools"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "icon": "public/assets/icons/logo.png",
+      "category": "Development",
+      "maintainer": "MineOffice Agent Contributors <noreply@mineoffice.invalid>"
+    }
+  }
+}

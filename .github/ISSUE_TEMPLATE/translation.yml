@@ -1,0 +1,38 @@
+name: Translate MineOffice
+description: Offer to add a language, or report a wrong translation
+title: "[Translation] "
+labels: ["translation", "good first issue"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping! MineOffice ships in English and Thai. All the text is in plain JSON files, so no coding is needed.
+        [CONTRIBUTING.md](../blob/main/CONTRIBUTING.md#translating) explains the steps.
+  - type: input
+    id: language
+    attributes:
+      label: Language
+      description: Its name and code, such as "Japanese (ja)"
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What would you like to do?
+      options:
+        - Add this language
+        - Finish or update a partial translation
+        - Report a wrong translation
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: For a wrong translation, say where you saw it, what it says, and what it should say.
+  - type: checkboxes
+    id: doing-it
+    attributes:
+      label: Who will do the work?
+      options:
+        - label: I can send a pull request for this myself

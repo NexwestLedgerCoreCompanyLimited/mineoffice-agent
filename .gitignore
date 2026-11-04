@@ -1,0 +1,35 @@
+# Node dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Production build outputs
+dist/
+dist-electron/
+out/
+release/
+
+# Environment variables & secrets
+.env
+.env.local
+.env.*.local
+keys.json
+
+# Logs & temp files
+logs/
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# IDE and Editor files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.sublime-workspace
+
+# Packed npm tarballs and the headless build
+*.tgz
+dist-cli/

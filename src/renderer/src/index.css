@@ -1,0 +1,224 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-ground text-ink font-sans;
+  }
+
+  :focus-visible {
+    outline: 3px solid #19B8D9;
+    outline-offset: 2px;
+  }
+
+  h1, h2, h3 {
+    @apply font-bold;
+  }
+}
+
+@layer components {
+  /* The "workshop floor": a faint block grid behind every page */
+  .workshop {
+    background-color: #EEF2F8;
+    background-image: linear-gradient(#E4EAF3 1px, transparent 1px), linear-gradient(90deg, #E4EAF3 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .card {
+    @apply bg-white border border-line rounded-2xl;
+  }
+
+  .page-title {
+    @apply text-[32px] leading-tight font-bold;
+  }
+
+  .nav-item {
+    @apply flex items-center gap-3 w-full min-h-[44px] px-3 rounded-lg text-[15px] font-medium text-left;
+    color: #3D4B63;
+  }
+  .nav-item:hover {
+    @apply bg-ground;
+  }
+  .nav-item.on {
+    @apply bg-brand-tint text-brand-text font-semibold;
+  }
+
+  /* Buttons press down like a block */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-[18px] rounded-lg border-0 text-[15px] font-semibold cursor-pointer whitespace-nowrap;
+    transition: transform 80ms, box-shadow 80ms;
+  }
+  .btn:active:not(:disabled) {
+    transform: translateY(2px);
+  }
+  .btn:disabled {
+    @apply opacity-55 cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply bg-brand text-white;
+    box-shadow: 0 3px 0 #0C3CA6;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: #114BC9;
+  }
+  .btn-primary:active:not(:disabled) {
+    box-shadow: 0 1px 0 #0C3CA6;
+  }
+  .btn-ghost {
+    @apply bg-white text-ink;
+    box-shadow: inset 0 0 0 1px #C6D1E1, 0 2px 0 #C6D1E1;
+  }
+  .btn-ghost:hover:not(:disabled) {
+    background: #F5F8FC;
+  }
+  .btn-text {
+    @apply bg-transparent text-brand-text;
+  }
+
+  .chip {
+    @apply min-h-[36px] px-3 rounded-full border border-line-strong bg-white text-[13px] font-medium cursor-pointer;
+    color: #3D4B63;
+  }
+  .chip:hover {
+    @apply border-brand text-brand-text;
+  }
+
+  .seg-group {
+    @apply inline-flex gap-0.5 p-[3px] rounded-lg;
+    background: #E6EBF3;
+  }
+  .seg {
+    @apply min-h-[40px] px-3.5 rounded-md border-0 bg-transparent text-sm font-medium cursor-pointer whitespace-nowrap;
+    color: #3D4B63;
+  }
+  .seg.on {
+    @apply bg-white text-brand-text font-semibold;
+    box-shadow: 0 1px 2px rgba(15, 28, 51, 0.18);
+  }
+  .seg:disabled {
+    @apply cursor-not-allowed;
+  }
+
+  /* Portraits and items sit in an inset slot, like an inventory */
+  .slot {
+    @apply flex items-center justify-center shrink-0;
+    background: #DFE6F1;
+    box-shadow: inset 2px 2px 0 #AEBBCF, inset -2px -2px 0 #FBFDFF;
+  }
+  .px {
+    @apply block;
+    image-rendering: pixelated;
+  }
+
+  .lamp {
+    @apply inline-block w-2.5 h-2.5 shrink-0;
+    background: #8896AB;
+    box-shadow: 0 0 0 2px #E1E7F0;
+  }
+  .lamp.ok {
+    background: #1B8A4B;
+    box-shadow: 0 0 0 2px #CFEBDB;
+  }
+  .lamp.work {
+    background: #F2A516;
+    box-shadow: 0 0 0 2px #FFE7B3;
+    animation: lamp-pulse 1.4s steps(2) infinite;
+  }
+  .lamp.wait {
+    background: #1557E6;
+    box-shadow: 0 0 0 2px #CFDEFB;
+  }
+  .lamp.bad {
+    background: #C4312B;
+    box-shadow: 0 0 0 2px #F6D2CF;
+  }
+
+  .field {
+    @apply w-full min-h-[44px] px-3 rounded-lg bg-white text-[15px] text-ink;
+    border: 2px solid #C6D1E1;
+  }
+  .field::placeholder {
+    color: #5D6B82;
+  }
+  .field:disabled {
+    @apply bg-ground text-muted;
+  }
+
+  .step-number {
+    @apply flex items-center justify-center w-7 h-7 shrink-0 bg-ink text-white font-bold text-base;
+  }
+
+  .choice {
+    @apply flex items-start gap-3 w-full p-3.5 rounded-xl border-2 border-line-strong bg-white text-left cursor-pointer;
+  }
+  .choice:hover:not(:disabled) {
+    border-color: #7FA3EF;
+  }
+  .choice.on {
+    @apply border-brand bg-brand-soft;
+  }
+  .choice.lead {
+    @apply border-lantern bg-lantern-tint;
+  }
+  .choice:disabled {
+    @apply cursor-not-allowed opacity-70;
+  }
+
+  .lift {
+    transition: transform 120ms, box-shadow 120ms;
+  }
+  .lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(15, 28, 51, 0.1);
+  }
+
+  .diff-line {
+    @apply flex gap-3 px-3.5 font-mono text-[13px] leading-[1.8] whitespace-pre;
+  }
+
+  /* Shaded logo behind the first-run setup */
+  .setup-art {
+    @apply absolute;
+    inset: -48px;
+    background: #DCE6F7 url(/assets/icons/logo.png) center/cover no-repeat;
+    filter: blur(7px) saturate(1.12);
+    /* Enlarged so the logo's rounded frame stays outside the window */
+    transform: scale(1.14);
+  }
+  .setup-shade {
+    @apply absolute inset-0;
+    background: radial-gradient(ellipse at center, rgba(238, 242, 248, 0.3) 0%, rgba(238, 242, 248, 0.6) 60%, rgba(214, 226, 251, 0.88) 100%);
+  }
+}
+
+@keyframes lamp-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lamp.work {
+    animation: none;
+  }
+  .btn,
+  .lift {
+    transition: none;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #C6D1E1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8896AB;
+}
