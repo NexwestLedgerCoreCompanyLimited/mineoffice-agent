@@ -9,6 +9,7 @@
 <p align="center">
   <a href="https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/actions/workflows/ci.yml"><img src="https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="../../releases/latest"><img src="https://img.shields.io/github/v/release/NexwestLedgerCoreCompanyLimited/mineoffice-agent?sort=semver&label=Release" alt="เวอร์ชันล่าสุด"></a>
+  <a href="https://www.npmjs.com/package/mineoffice-agent"><img src="https://img.shields.io/npm/v/mineoffice-agent" alt="เวอร์ชันบน npm"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-BSL%201.1-amber.svg" alt="ใบอนุญาต BSL 1.1"></a>
   <a href="https://github.com/NexwestLedgerCoreCompanyLimited"><img src="https://img.shields.io/badge/Made%20by-Nai%20Natthawut-2230e3" alt="สร้างโดย Nai Natthawut"></a>
 </p>
@@ -56,7 +57,7 @@
 - **เซิร์ฟเวอร์ Linux ไม่มีหน้าจอ:** ต้องใช้ Node.js 22 ขึ้นไป
 
 ```bash
-npm install -g https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/releases/latest/download/mineoffice-agent.tgz
+npm install -g mineoffice-agent
 ```
 
 ## เริ่มใช้งานครั้งแรก

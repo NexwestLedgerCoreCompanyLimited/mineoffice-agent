@@ -2,6 +2,12 @@
 
 Significant choices, why we made them, and what we turned down. Newest first.
 
+## 2026-11-05 · npm releases use Trusted Publisher
+
+- **Decision:** the release workflow publishes `mineoffice-agent` to npm through a Trusted Publisher set up on npmjs.com, the same as NeledPort.
+- **Why:** there is no long-lived token to leak, and npm records which workflow built each version.
+- **Turned down:** an `NPM_TOKEN` secret, which can publish from anywhere if it leaks.
+
 ## 2026-11-05 · App updates with electron-updater, and download links that never change
 
 - **Decision:** the same library as NeledPort. Windows and the AppImage update themselves. macOS and .deb show that a new version exists and open the download page. Installer names carry no version, so `releases/latest/download/...` always works, and every release is marked Latest.

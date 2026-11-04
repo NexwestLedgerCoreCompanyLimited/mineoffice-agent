@@ -9,6 +9,7 @@
 <p align="center">
   <a href="https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/actions/workflows/ci.yml"><img src="https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="../../releases/latest"><img src="https://img.shields.io/github/v/release/NexwestLedgerCoreCompanyLimited/mineoffice-agent?sort=semver&label=Release" alt="Latest release"></a>
+  <a href="https://www.npmjs.com/package/mineoffice-agent"><img src="https://img.shields.io/npm/v/mineoffice-agent" alt="npm version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-BSL%201.1-amber.svg" alt="License: BSL 1.1"></a>
   <a href="https://github.com/NexwestLedgerCoreCompanyLimited"><img src="https://img.shields.io/badge/Made%20by-Nai%20Natthawut-2230e3" alt="Made by Nai Natthawut"></a>
 </p>
@@ -66,7 +67,7 @@ Tell the team what you want, follow the work on the board, and review the result
 **Headless, on any machine with Node.js 22 or newer:**
 
 ```bash
-npm install -g https://github.com/NexwestLedgerCoreCompanyLimited/mineoffice-agent/releases/latest/download/mineoffice-agent.tgz
+npm install -g mineoffice-agent
 ```
 
 ```bash

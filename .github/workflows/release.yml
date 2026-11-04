@@ -87,27 +87,29 @@ jobs:
           awk -v heading="## ${GITHUB_REF_NAME#v}" '$0 == heading { found = 1; next } found && /^## / { exit } found' CHANGELOG.md > notes.md
           gh release create "$GITHUB_REF_NAME" --notes-file notes.md $prerelease mineoffice-agent.tgz artifacts/*/*
 
+  # No token: npmjs.com trusts this workflow file (Trusted Publisher), and npm attaches provenance
   npm:
     needs: release
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          # Trusted Publisher needs a newer npm than Node 22 ships with
+          node-version: 24
           cache: npm
           registry-url: https://registry.npmjs.org
       - run: npm ci
-      - name: Publish to npm, if a token has been set up
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish to npm
         run: |
-          if [ -z "$NODE_AUTH_TOKEN" ]; then
-            echo "No NPM_TOKEN secret, so nothing was published to npm."
-            exit 0
-          fi
-          npm publish --access public
+          # A tag like v1.2.0-beta.1 must not become what plain "npm install" gets
+          tag=latest
+          case "$GITHUB_REF_NAME" in *-*) tag=next ;; esac
+          npm publish --access public --tag "$tag"
 
   docker:
     needs: release
